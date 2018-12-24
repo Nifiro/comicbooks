@@ -41,6 +41,13 @@ public class CacheConfiguration {
             cm.createCache(com.comicbooks.application.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.comicbooks.application.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.comicbooks.application.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.comicbooks.application.domain.ComicBook.class.getName(), jcacheConfiguration);
+            cm.createCache(com.comicbooks.application.domain.Chapter.class.getName(), jcacheConfiguration);
+            cm.createCache(com.comicbooks.application.domain.Author.class.getName(), jcacheConfiguration);
+            cm.createCache(com.comicbooks.application.domain.Genre.class.getName(), jcacheConfiguration);
+            cm.createCache(com.comicbooks.application.domain.ComicBookGenres.class.getName(), jcacheConfiguration);
+            cm.createCache(com.comicbooks.application.domain.Series.class.getName(), jcacheConfiguration);
+            cm.createCache(com.comicbooks.application.domain.Profile.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

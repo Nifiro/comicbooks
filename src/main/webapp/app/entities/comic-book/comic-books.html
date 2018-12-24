@@ -1,0 +1,84 @@
+<div>
+    <h2 data-translate="comicbooksApp.comicBook.home.title">Comic Books</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="comic-book.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="comicbooksApp.comicBook.home.createLabel">
+                        Create new Comic Book
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="title"><span data-translate="comicbooksApp.comicBook.title">Title</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="chapters"><span data-translate="comicbooksApp.comicBook.chapters">Chapters</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="description"><span data-translate="comicbooksApp.comicBook.description">Description</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="publisher"><span data-translate="comicbooksApp.comicBook.publisher">Publisher</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="serializedFrom"><span data-translate="comicbooksApp.comicBook.serializedFrom">Serialized From</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="serializedTo"><span data-translate="comicbooksApp.comicBook.serializedTo">Serialized To</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="imagePath"><span data-translate="comicbooksApp.comicBook.imagePath">Image Path</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="coverPath"><span data-translate="comicbooksApp.comicBook.coverPath">Cover Path</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="createdBy"><span data-translate="comicbooksApp.comicBook.createdBy">Created By</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="createdDate"><span data-translate="comicbooksApp.comicBook.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lastModifiedBy"><span data-translate="comicbooksApp.comicBook.lastModifiedBy">Last Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lastModifiedDate"><span data-translate="comicbooksApp.comicBook.lastModifiedDate">Last Modified Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="status"><span data-translate="comicbooksApp.comicBook.status">Status</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="authorId"><span data-translate="comicbooksApp.comicBook.author">Author</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="comicBook in vm.comicBooks track by comicBook.id">
+                    <td><a ui-sref="comic-book-detail({id:comicBook.id})">{{comicBook.id}}</a></td>
+                    <td>{{comicBook.title}}</td>
+                    <td>{{comicBook.chapters}}</td>
+                    <td>{{comicBook.description}}</td>
+                    <td>{{comicBook.publisher}}</td>
+                    <td>{{comicBook.serializedFrom | date:'medium'}}</td>
+                    <td>{{comicBook.serializedTo | date:'medium'}}</td>
+                    <td>{{comicBook.imagePath}}</td>
+                    <td>{{comicBook.coverPath}}</td>
+                    <td>{{comicBook.createdBy}}</td>
+                    <td>{{comicBook.createdDate | date:'medium'}}</td>
+                    <td>{{comicBook.lastModifiedBy}}</td>
+                    <td>{{comicBook.lastModifiedDate | date:'medium'}}</td>
+                    <td data-translate="{{'comicbooksApp.Status.' + comicBook.status}}">{{comicBook.status}}</td>
+                    <td>
+                        <a ui-sref="author-detail({id:comicBook.authorId})">{{comicBook.authorId}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="comic-book-detail({id:comicBook.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="comic-book.edit({id:comicBook.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="comic-book.delete({id:comicBook.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

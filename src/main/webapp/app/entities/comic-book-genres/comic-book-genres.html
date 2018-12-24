@@ -1,0 +1,62 @@
+<div>
+    <h2 data-translate="comicbooksApp.comicBookGenres.home.title">Comic Book Genres</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="comic-book-genres.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="comicbooksApp.comicBookGenres.home.createLabel">
+                        Create new Comic Book Genres
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="comicBookId"><span data-translate="comicbooksApp.comicBookGenres.comicBook">Comic Book</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="genreId"><span data-translate="comicbooksApp.comicBookGenres.genre">Genre</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="comicBookGenres in vm.comicBookGenres track by comicBookGenres.id">
+                    <td><a ui-sref="comic-book-genres-detail({id:comicBookGenres.id})">{{comicBookGenres.id}}</a></td>
+                    <td>
+                        <a ui-sref="comic-book-detail({id:comicBookGenres.comicBookId})">{{comicBookGenres.comicBookId}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="genre-detail({id:comicBookGenres.genreId})">{{comicBookGenres.genreId}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="comic-book-genres-detail({id:comicBookGenres.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="comic-book-genres.edit({id:comicBookGenres.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="comic-book-genres.delete({id:comicBookGenres.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

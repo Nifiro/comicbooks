@@ -1,0 +1,27 @@
+
+<div>
+    <h2><span data-translate="comicbooksApp.comicBookGenres.detail.title">Comic Book Genres</span> {{vm.comicBookGenres.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="comicbooksApp.comicBookGenres.comicBook">Comic Book</span></dt>
+        <dd>
+            <a ui-sref="comic-book-detail({id:vm.comicBookGenres.comicBookId})">{{vm.comicBookGenres.comicBookId}}</a>
+        </dd>
+        <dt><span data-translate="comicbooksApp.comicBookGenres.genre">Genre</span></dt>
+        <dd>
+            <a ui-sref="genre-detail({id:vm.comicBookGenres.genreId})">{{vm.comicBookGenres.genreId}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="comic-book-genres-detail.edit({id:vm.comicBookGenres.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

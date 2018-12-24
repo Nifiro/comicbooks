@@ -1,0 +1,23 @@
+
+{
+    "comicbooksApp": {
+        "comicBookGenres" : {
+            "home": {
+                "title": "Comic Book Genres",
+                "createLabel": "Создать новый Comic Book Genres",
+                "createOrEditLabel": "Создать или отредактировать Comic Book Genres"
+            },
+            "created": "Новый Comic Book Genres создан с идентификатором {{ param }}",
+            "updated": "Comic Book Genres обновлен с идентификатором {{ param }}",
+            "deleted": "Comic Book Genres удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Comic Book Genres {{ id }}?"
+            },
+            "detail": {
+                "title": "Comic Book Genres"
+            },
+            "comicBook": "Comic Book",
+            "genre": "Genre"
+        }
+    }
+}

@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span data-translate="comicbooksApp.profile.detail.title">Profile</span> {{vm.profile.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="comicbooksApp.profile.login">Login</span></dt>
+        <dd>
+            <span>{{vm.profile.login}}</span>
+        </dd>
+        <dt><span data-translate="comicbooksApp.profile.lastName">Last Name</span></dt>
+        <dd>
+            <span>{{vm.profile.lastName}}</span>
+        </dd>
+        <dt><span data-translate="comicbooksApp.profile.firstName">First Name</span></dt>
+        <dd>
+            <span>{{vm.profile.firstName}}</span>
+        </dd>
+        <dt><span data-translate="comicbooksApp.profile.email">Email</span></dt>
+        <dd>
+            <span>{{vm.profile.email}}</span>
+        </dd>
+        <dt><span data-translate="comicbooksApp.profile.imageUrl">Image Url</span></dt>
+        <dd>
+            <span>{{vm.profile.imageUrl}}</span>
+        </dd>
+        <dt><span data-translate="comicbooksApp.profile.user">User</span></dt>
+        <dd>
+            {{vm.profile.userId}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="profile-detail.edit({id:vm.profile.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

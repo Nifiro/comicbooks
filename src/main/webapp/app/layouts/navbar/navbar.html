@@ -1,3 +1,15 @@
+<md-toolbar class="md-toolbar-tools" ng-switch="vm.isAuthenticated">
+    <md-button ui-sref="home">Главная</md-button>
+    <md-button>Все комиксы</md-button>
+    <md-button>Последние обновления</md-button>
+    <md-button>Авторы</md-button>
+    <md-button has-authority="ROLE_ADMIN" ng-show="vm.swaggerEnabled" ui-sref="docs">API</md-button>
+    <span flex></span>
+    <md-button class="md-raised md-warn" ng-show="vm.isAuthenticated()" ng-click="vm.logout()">Выйти</md-button>
+    <md-button class="md-raised md-warn" ng-hide="vm.isAuthenticated()" ng-click="vm.login()">Вход</md-button>
+    <md-button class="md-raised md-warn" ng-hide="vm.isAuthenticated()" ui-sref="register">Регистрация</md-button>
+</md-toolbar>
+<!--
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -20,7 +32,7 @@
                         <span class="hidden-sm" data-translate="global.menu.home">Home</span>
                     </a>
                 </li>
-                <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+                &lt;!&ndash; jhipster-needle-add-element-to-menu - JHipster will add new menu items here &ndash;&gt;
                 <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
                         <span>
@@ -32,7 +44,7 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu>
-                        <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+                        &lt;!&ndash; jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here &ndash;&gt;
                     </ul>
                 </li>
                 <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
@@ -129,7 +141,7 @@
                                 <span data-translate="global.menu.admin.apidocs">API</span>
                             </a>
                         </li>
-                        <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+                        &lt;!&ndash; jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here &ndash;&gt;
                     </ul>
                 </li>
                 <li ui-sref-active="active" uib-dropdown class="dropdown pointer" ng-controller="JhiLanguageController as languageVm">
@@ -150,3 +162,4 @@
         </div>
     </div>
 </nav>
+-->

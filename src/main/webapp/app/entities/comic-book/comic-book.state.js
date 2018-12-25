@@ -94,41 +94,36 @@
             parent: 'comic-book',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_USER'],
+                pageTitle: 'comicbooksApp.comicBook.home.title'
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                $uibModal.open({
+            views: {
+                'content@': {
                     templateUrl: 'app/entities/comic-book/comic-book-dialog.html',
                     controller: 'ComicBookDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    size: 'lg',
-                    resolve: {
-                        entity: function () {
-                            return {
-                                title: null,
-                                chapters: null,
-                                description: null,
-                                publisher: null,
-                                serializedFrom: null,
-                                serializedTo: null,
-                                imagePath: null,
-                                coverPath: null,
-                                createdBy: null,
-                                createdDate: null,
-                                lastModifiedBy: null,
-                                lastModifiedDate: null,
-                                status: null,
-                                id: null
-                            };
-                        }
-                    }
-                }).result.then(function() {
-                    $state.go('comic-book', null, { reload: 'comic-book' });
-                }, function() {
-                    $state.go('comic-book');
-                });
-            }]
+                    controllerAs: 'vm'
+                }
+            },
+            resolve: {
+                entity: function () {
+                    return {
+                        title: null,
+                        chapters: null,
+                        description: null,
+                        publisher: null,
+                        serializedFrom: null,
+                        serializedTo: null,
+                        imagePath: null,
+                        coverPath: null,
+                        createdBy: null,
+                        createdDate: null,
+                        lastModifiedBy: null,
+                        lastModifiedDate: null,
+                        status: null,
+                        id: null
+                    };
+                }
+            }
         })
         .state('comic-book.edit', {
             parent: 'comic-book',

@@ -5,13 +5,12 @@
         .module('comicbooksApp')
         .controller('ComicBookDialogController', ComicBookDialogController);
 
-    ComicBookDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'ComicBook', 'Author'];
+    ComicBookDialogController.$inject = ['$timeout', '$scope', '$stateParams', 'DataUtils', 'entity', 'ComicBook', 'Author'];
 
-    function ComicBookDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, ComicBook, Author) {
+    function ComicBookDialogController ($timeout, $scope, $stateParams, DataUtils, entity, ComicBook, Author) {
         var vm = this;
 
         vm.comicBook = entity;
-        vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
@@ -22,10 +21,6 @@
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
-
-        function clear () {
-            $uibModalInstance.dismiss('cancel');
-        }
 
         function save () {
             vm.isSaving = true;
@@ -38,7 +33,6 @@
 
         function onSaveSuccess (result) {
             $scope.$emit('comicbooksApp:comicBookUpdate', result);
-            $uibModalInstance.close(result);
             vm.isSaving = false;
         }
 

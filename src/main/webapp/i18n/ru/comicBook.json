@@ -3,8 +3,8 @@
     "comicbooksApp": {
         "comicBook" : {
             "home": {
-                "title": "Comic Books",
-                "createLabel": "Создать новый Comic Book",
+                "title": "Комиксы",
+                "createLabel": "Добавить комикс",
                 "createOrEditLabel": "Создать или отредактировать Comic Book"
             },
             "created": "Новый Comic Book создан с идентификатором {{ param }}",

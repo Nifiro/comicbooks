@@ -19,6 +19,7 @@
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
+    <link rel="stylesheet" href="content/css/comicbooks.css">
     <!-- endbuild -->
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webapp" />
@@ -28,7 +29,7 @@
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div ui-view="navbar" ng-cloak></div>
-    <div class="container">
+    <div layout-padding>
         <div class="md-whiteframe-3dp" ui-view="content" layout-padding layout-margin>
             <!-- Angular views -->
         </div>

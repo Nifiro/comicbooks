@@ -5,6 +5,15 @@
     <md-button ui-sref="author">Авторы</md-button>
     <md-button has-authority="ROLE_ADMIN" ng-show="vm.swaggerEnabled" ui-sref="docs">API</md-button>
     <span flex></span>
+    <md-autocomplete has-authority="ROLE_USER" flex placeholder="Поиск" md-items="comic in vm.comicBooks"
+                     md-item-text="comic.title" md-search-text="vm.searchText">
+        <md-item-template>
+            <span md-highlight-text="vm.searchText">{{item.display}}</span>
+        </md-item-template>
+        <md-not-found>
+            No states matching "{{vm.searchText}}" were found.
+        </md-not-found>
+    </md-autocomplete>
     <md-button class="md-raised md-warn" ng-show="vm.isAuthenticated()" ng-click="vm.logout()">Выйти</md-button>
     <md-button class="md-raised md-warn" ng-hide="vm.isAuthenticated()" ng-click="vm.login()">Вход</md-button>
     <md-button class="md-raised md-warn" ng-hide="vm.isAuthenticated()" ui-sref="register">Регистрация</md-button>

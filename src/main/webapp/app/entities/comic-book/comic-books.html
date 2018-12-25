@@ -27,10 +27,6 @@
                     <th jh-sort-by="serializedTo"><span data-translate="comicbooksApp.comicBook.serializedTo">Serialized To</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="imagePath"><span data-translate="comicbooksApp.comicBook.imagePath">Image Path</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="coverPath"><span data-translate="comicbooksApp.comicBook.coverPath">Cover Path</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="createdBy"><span data-translate="comicbooksApp.comicBook.createdBy">Created By</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="createdDate"><span data-translate="comicbooksApp.comicBook.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lastModifiedBy"><span data-translate="comicbooksApp.comicBook.lastModifiedBy">Last Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lastModifiedDate"><span data-translate="comicbooksApp.comicBook.lastModifiedDate">Last Modified Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="status"><span data-translate="comicbooksApp.comicBook.status">Status</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="authorId"><span data-translate="comicbooksApp.comicBook.author">Author</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
@@ -47,10 +43,6 @@
                     <td>{{comicBook.serializedTo | date:'medium'}}</td>
                     <td>{{comicBook.imagePath}}</td>
                     <td>{{comicBook.coverPath}}</td>
-                    <td>{{comicBook.createdBy}}</td>
-                    <td>{{comicBook.createdDate | date:'medium'}}</td>
-                    <td>{{comicBook.lastModifiedBy}}</td>
-                    <td>{{comicBook.lastModifiedDate | date:'medium'}}</td>
                     <td data-translate="{{'comicbooksApp.Status.' + comicBook.status}}">{{comicBook.status}}</td>
                     <td>
                         <a ui-sref="author-detail({id:comicBook.authorId})">{{comicBook.authorId}}</a>

@@ -5,9 +5,9 @@
         .module('comicbooksApp')
         .controller('ComicBookDialogController', ComicBookDialogController);
 
-    ComicBookDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$mdDialog', 'DataUtils', 'entity', 'ComicBook', 'Author'];
+    ComicBookDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$mdToast', 'DataUtils', 'entity', 'ComicBook', 'Author', 'Genre'];
 
-    function ComicBookDialogController($timeout, $scope, $stateParams, $mdDialog, DataUtils, entity, ComicBook, Author) {
+    function ComicBookDialogController($timeout, $scope, $stateParams, $mdToast, DataUtils, entity, ComicBook, Author, Genre) {
         var vm = this;
 
         vm.comicBook = entity;
@@ -17,6 +17,7 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.authors = Author.query();
+        vm.genres = Genre.query();
         vm.selectedAuthor = null;
 
         $timeout(function () {
@@ -36,22 +37,24 @@
         function onSaveSuccess(result) {
             $scope.$emit('comicbooksApp:comicBookUpdate', result);
             vm.isSaving = false;
-            var dialog = $mdDialog.alert()
-                .clickOutsideToClose(true)
-                .title('Ура!')
+
+            var toast = $mdToast.simple()
                 .textContent('Комикс "' + vm.comicBook.title + '" успешно добавлен')
-                .ok('OK');
-            $mdDialog.show(dialog);
+                .parent(angular.element(document.getElementById('toastParent')))
+                .position('bottom right')
+                .capsule(true);
+            $mdToast.show(toast);
+
             vm.comicBook = {
-                title: null,
-                chapters: null,
-                description: null,
-                publisher: null,
-                serializedFrom: null,
-                serializedTo: null,
-                imagePath: null,
-                coverPath: null,
-                status: null,
+                title: vm.comicBook.title,
+                chapters: vm.comicBook.chapters,
+                description: vm.comicBook.description,
+                publisher: vm.comicBook.publisher,
+                serializedFrom: vm.comicBook.serializedFrom,
+                serializedTo: vm.comicBook.serializedTo,
+                imagePath: vm.comicBook.imagePath,
+                coverPath: vm.comicBook.coverPath,
+                status: vm.comicBook.status,
                 id: null,
                 authorId: null
             };

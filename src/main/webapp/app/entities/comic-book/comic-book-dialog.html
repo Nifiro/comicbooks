@@ -1,5 +1,5 @@
 <md-content layout-padding ng-cloak>
-    <di class="md-headline">Добавить комикс</di>
+    <div class="md-headline">Добавить комикс</div>
     <form name="comicBookForm">
         <div id="toastParent" layout-gt-sm="row" layout-sm="column" layout-padding>
             <div flex-gt-sm="nogrow" flex-sm="auto">
@@ -14,9 +14,11 @@
                     <div ngf-select ng-model="vm.imageFile" class="md-button" ngf-pattern="'image/*'"
                          ngf-accept="'image/*'" ngf-max-size="5MB" required>Добавить фон
                     </div>
+<!--
                     <div ngf-select ng-model="vm.comicFile" class="md-button" ngf-pattern="'.cbz'"
                          ngf-accept="'.cbz'" required>Добавить комикс
                     </div>
+-->
                 </div>
             </div>
             <div flex-gt-sm="grow" flex-sm="auto" flex-offset-gt-sm="5">
@@ -46,6 +48,14 @@
                     <md-input-container flex class="md-block">
                         <label>Выпускался по</label>
                         <input type="date" name="serializedTo" ng-model="vm.comicBook.serializedTo">
+                    </md-input-container>
+                    <md-input-container flex class="md-block">
+                        <label>Статус</label>
+                        <md-select name="status" ng-model="vm.selectedStatus">
+                            <md-option ng-repeat="status in vm.statuses" ng-value="status">
+                                {{status.value}}
+                            </md-option>
+                        </md-select>
                     </md-input-container>
                 </div>
                 <div layout="row">
@@ -93,121 +103,3 @@
         </div>
     </form>
 </md-content>
-<!--
-
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
-
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myComicBookLabel" data-translate="comicbooksApp.comicBook.home.createOrEditLabel">Create or edit a Comic Book</h4>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.comicBook.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.comicBook.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.title" for="field_title">Title</label>
-            <input type="text" class="form-control" name="title" id="field_title"
-                    ng-model="vm.comicBook.title"
-                    required/>
-            <div ng-show="editForm.title.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.title.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.chapters" for="field_chapters">Chapters</label>
-            <input type="number" class="form-control" name="chapters" id="field_chapters"
-                    ng-model="vm.comicBook.chapters"
-                    required/>
-            <div ng-show="editForm.chapters.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.chapters.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.chapters.$error.number" data-translate="entity.validation.number">
-                    This field should be a number.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.description" for="field_description">Description</label>
-                <textarea class="form-control" name="description" id="field_description"
-                    ng-model="vm.comicBook.description" required></textarea>
-            <div ng-show="editForm.description.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.description.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.publisher" for="field_publisher">Publisher</label>
-            <input type="text" class="form-control" name="publisher" id="field_publisher"
-                    ng-model="vm.comicBook.publisher"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.serializedFrom" for="field_serializedFrom">Serialized From</label>
-                <div class="input-group">
-                    <input id="field_serializedFrom" type="text" class="form-control" name="serializedFrom" datetime-picker="{{dateformat}}" ng-model="vm.comicBook.serializedFrom" is-open="vm.datePickerOpenStatus.serializedFrom"
-                    />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('serializedFrom')"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.serializedTo" for="field_serializedTo">Serialized To</label>
-                <div class="input-group">
-                    <input id="field_serializedTo" type="text" class="form-control" name="serializedTo" datetime-picker="{{dateformat}}" ng-model="vm.comicBook.serializedTo" is-open="vm.datePickerOpenStatus.serializedTo"
-                    />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('serializedTo')"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.imagePath" for="field_imagePath">Image Path</label>
-            <input type="text" class="form-control" name="imagePath" id="field_imagePath"
-                    ng-model="vm.comicBook.imagePath"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.coverPath" for="field_coverPath">Cover Path</label>
-            <input type="text" class="form-control" name="coverPath" id="field_coverPath"
-                    ng-model="vm.comicBook.coverPath"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.comicBook.status" for="field_status">Status</label>
-            <select class="form-control" name="status" ng-model="vm.comicBook.status" id="field_status">
-                <option value="ONGOING" data-translate="comicbooksApp.Status.ONGOING">ONGOING</option>
-                <option value="COMPLETED" data-translate="comicbooksApp.Status.COMPLETED">COMPLETED</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label data-translate="comicbooksApp.comicBook.author" for="field_author">Author</label>
-            <select class="form-control" id="field_author" name="author" ng-model="vm.comicBook.authorId" ng-options="author.id as author.id for author in vm.authors"            >
-                <option value=""></option>
-            </select>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
-        </button>
-    </div>
-</form>
--->

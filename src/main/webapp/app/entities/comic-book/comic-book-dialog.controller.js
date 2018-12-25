@@ -5,9 +5,11 @@
         .module('comicbooksApp')
         .controller('ComicBookDialogController', ComicBookDialogController);
 
-    ComicBookDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$mdToast', 'DataUtils', 'entity', 'ComicBook', 'Author', 'Genre'];
+    ComicBookDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$mdToast', 'DataUtils', 'entity',
+        'Upload', 'ComicBook', 'Author', 'Genre', 'ComicBookGenres'];
 
-    function ComicBookDialogController($timeout, $scope, $stateParams, $mdToast, DataUtils, entity, ComicBook, Author, Genre) {
+    function ComicBookDialogController($timeout, $scope, $stateParams, $mdToast, DataUtils, entity,
+                                       Upload, ComicBook, Author, Genre, ComicBookGenres) {
         var vm = this;
 
         vm.comicBook = entity;
@@ -19,6 +21,21 @@
         vm.authors = Author.query();
         vm.genres = Genre.query();
         vm.selectedAuthor = null;
+        vm.selectedStatus = null;
+        vm.selectedGenres = null;
+        vm.coverFile = null;
+        vm.imageFile = null;
+
+        vm.statuses = [
+            {
+                name: 'ONGOING',
+                value: 'Продолжающийся'
+            },
+            {
+                name: 'COMPLETED',
+                value: 'Завершенный'
+            }
+        ];
 
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
@@ -27,6 +44,8 @@
         function save() {
             vm.isSaving = true;
             vm.comicBook.authorId = vm.selectedAuthor.id;
+            if (vm.selectedStatus != null)
+                vm.comicBook.status = vm.selectedStatus.name;
             if (vm.comicBook.id !== null) {
                 ComicBook.update(vm.comicBook, onSaveSuccess, onSaveError);
             } else {
@@ -34,16 +53,40 @@
             }
         }
 
-        function onSaveSuccess(result) {
-            $scope.$emit('comicbooksApp:comicBookUpdate', result);
-            vm.isSaving = false;
+        function uploadFile(file, type) {
+            Upload.upload({
+                url: '/api/comic-books/upload',
+                data: {
+                    file: file,
+                    id: vm.comicBook.id,
+                    type: type
+                }
+            });
+        }
 
+        function showAlert(message) {
             var toast = $mdToast.simple()
-                .textContent('Комикс "' + vm.comicBook.title + '" успешно добавлен')
+                .textContent(message)
                 .parent(angular.element(document.getElementById('toastParent')))
                 .position('bottom right')
                 .capsule(true);
             $mdToast.show(toast);
+        }
+
+        function onSaveSuccess(result) {
+            vm.isSaving = false;
+            vm.comicBook.id = result.id;
+
+            vm.selectedGenres.forEach(function (genre) {
+                ComicBookGenres.save({
+                    comicBookId: vm.comicBook.id,
+                    genreId: genre.id
+                });
+            });
+
+            showAlert('Комикс "' + vm.comicBook.title + '" успешно добавлен');
+            uploadFile(vm.coverFile, 'cover');
+            uploadFile(vm.imageFile, 'background');
 
             vm.comicBook = {
                 title: vm.comicBook.title,

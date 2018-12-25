@@ -2,6 +2,11 @@ package com.comicbooks.application.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -14,6 +19,7 @@ import java.util.Objects;
  * A Chapter.
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "chapter")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Chapter implements Serializable {
@@ -46,15 +52,19 @@ public class Chapter implements Serializable {
     private Instant releaseDate;
 
     @Column(name = "created_by")
+    @CreatedBy
     private String createdBy;
 
     @Column(name = "created_date")
+    @CreatedDate
     private Instant createdDate;
 
     @Column(name = "last_modified_by")
+    @LastModifiedBy
     private String lastModifiedBy;
 
     @Column(name = "last_modified_date")
+    @LastModifiedDate
     private Instant lastModifiedDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

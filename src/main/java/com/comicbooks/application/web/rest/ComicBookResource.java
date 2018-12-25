@@ -9,6 +9,7 @@ import com.comicbooks.application.service.dto.ComicBookDTO;
 import com.comicbooks.application.service.dto.ComicBookCriteria;
 import com.comicbooks.application.service.ComicBookQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -17,11 +18,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,5 +132,19 @@ public class ComicBookResource {
         log.debug("REST request to delete ComicBook : {}", id);
         comicBookService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @PostMapping("/comic-books/upload")
+    public ResponseEntity<ComicBookDTO> uploadComicBook(@RequestParam MultipartFile file, @RequestParam Long id,
+                                                        @RequestParam String type) {
+        log.debug("REST request to upload ComicBook: {}", id);
+        ComicBookDTO comicBookDTO;
+        log.debug("REST request to upload Book : {}:", id);
+        try {
+            comicBookDTO = comicBookService.uploadComicBook(file, id, type);
+        } catch (FileSystemException | BadRequestException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().body(comicBookDTO);
     }
 }

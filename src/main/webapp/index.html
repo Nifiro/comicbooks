@@ -13,13 +13,13 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="bower_components/roboto-fontface/css/roboto/roboto-fontface.css">
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
     <!-- endinject -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
-    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webapp" />
 </head>
@@ -29,7 +29,7 @@
     <![endif]-->
     <div ui-view="navbar" ng-cloak></div>
     <div class="container">
-        <div class="md-whiteframe-3dp" ui-view="content" layout-padding>
+        <div class="md-whiteframe-3dp" ui-view="content" layout-padding layout-margin>
             <!-- Angular views -->
         </div>
     </div>

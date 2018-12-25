@@ -1,39 +1,74 @@
-<md-content layout="column" layout-padding>
+<md-content layout-padding>
+    <h2>Добавить комикс</h2>
     <form name="comicBookForm">
-        <div layout="row">
-            <md-input-container flex class="md-block">
-                <label for="title">Заголовок</label>
-                <input id="title" type="text" name="title" ng-model="vm.comicBook.title" required>
-                <div ng-messages="comicBookForm.title.$error">
-                    <div ng-message="required">Введите заголовок</div>
+        <div layout="row" layout-padding>
+            <div flex="25" class="md-whiteframe-3dp">
+                <div layout="column" layout-align="end center">
+                    <img class="img-rounded" ngf-thumbnail="vm.coverFile" alt="image" ngf-pattern="'image/*'"
+                         ngf-accept="'image/*'" ngf-max-size="1MB" ngf-min-height="200">
+                    <div flex ngf-select ng-model="vm.coverFile" class="md-button"
+                         ngf-resize="{width: 240, height: 320, centerCrop: true}" required>Добавить обложку
+                    </div>
+                    <div ngf-select ng-model="vm.imageFile" class="md-button" required>Добавить фон</div>
+                    <div ngf-select ng-model="vm.comicFile" class="md-button" required>Добавить комикс</div>
                 </div>
-            </md-input-container>
+            </div>
+            <div flex="75" flex-offset="5">
+                <div layout="row">
+                    <md-input-container flex class="md-block">
+                        <label>Заголовок</label>
+                        <input type="text" name="title" ng-model="vm.comicBook.title" required>
+                        <div ng-messages="comicBookForm.title.$error">
+                            <div ng-message="required">Введите заголовок</div>
+                        </div>
+                    </md-input-container>
 
-            <md-input-container flex class="md-block">
-                <label for="chapters">Количество глав</label>
-                <input id="chapters" type="number" name="chapters" ng-model="vm.comicBook.chapters" required>
-                <div ng-messages="comicBookForm.chapters.$error">
-                    <div ng-message="required">Введите количество глав</div>
+                    <md-input-container flex class="md-block">
+                        <label>Количество глав</label>
+                        <input type="number" name="chapters" ng-model="vm.comicBook.chapters" required>
+                        <div ng-messages="comicBookForm.chapters.$error">
+                            <div ng-message="required">Введите количество глав</div>
+                        </div>
+                    </md-input-container>
                 </div>
-            </md-input-container>
-        </div>
-        <md-input-container class="md-block">
-            <label for="publisher">Издатель</label>
-            <input id="publisher" type="text" name="publisher" ng-model="vm.comicBook.title">
-        </md-input-container>
-        <div layout="row" layout-align="center center">
-            <div flex class="md-subheader">Годы выпуска</div>
-        </div>
-        <div layout="row">
-            <md-input-container flex class="md-block">
-                <label for="serializedFrom">Выпускался с</label>
-                <input id="serializedFrom" type="date" name="serializedFrom" ng-model="vm.comicBook.serializedFrom">
-            </md-input-container>
+                <div layout="row">
+                    <md-input-container flex class="md-block">
+                        <label>Издатель</label>
+                        <input type="text" name="publisher" ng-model="vm.comicBook.publisher">
+                    </md-input-container>
 
-            <md-input-container flex class="md-block">
-                <label for="serializedTo">Выпускался по</label>
-                <input id="serializedTo" type="date" name="serializedTo" ng-model="vm.comicBook.chapters">
-            </md-input-container>
+                    <md-input-container flex class="md-block">
+                        <label>Автор</label>
+                        <md-select ng-model="vm.selectedAuthor" required>
+                            <md-option ng-repeat="author in vm.authors" ng-value="author">
+                                {{author.firstName}} {{author.lastName}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex class="md-block">
+                        <label>Выпускался с</label>
+                        <input type="date" name="serializedFrom" ng-model="vm.comicBook.serializedFrom">
+                    </md-input-container>
+
+                    <md-input-container flex class="md-block">
+                        <label>Выпускался по</label>
+                        <input type="date" name="serializedTo" ng-model="vm.comicBook.serializedTo">
+                    </md-input-container>
+                </div>
+                <md-input-container class="md-block">
+                    <label>Описание</label>
+                    <textarea name="description" max-rows="4" ng-model="vm.comicBook.description" required></textarea>
+                </md-input-container>
+            </div>
+        </div>
+
+        <div layout="row" layout-align="end">
+            <md-button ui-sref="comic-book">Отмена</md-button>
+            <md-button id="submitButton" ng-disabled="!comicBookForm.$valid" ng-click="vm.save()">
+                Сохранить
+            </md-button>
         </div>
     </form>
 </md-content>

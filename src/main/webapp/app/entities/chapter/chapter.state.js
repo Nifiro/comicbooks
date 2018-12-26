@@ -94,36 +94,30 @@
             data: {
                 authorities: ['ROLE_USER']
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                $uibModal.open({
+            views: {
+                'content@': {
                     templateUrl: 'app/entities/chapter/chapter-dialog.html',
                     controller: 'ChapterDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    size: 'lg',
-                    resolve: {
-                        entity: function () {
-                            return {
-                                name: null,
-                                number: null,
-                                volume: null,
-                                filePath: null,
-                                pages: null,
-                                releaseDate: null,
-                                createdBy: null,
-                                createdDate: null,
-                                lastModifiedBy: null,
-                                lastModifiedDate: null,
-                                id: null
-                            };
-                        }
-                    }
-                }).result.then(function() {
-                    $state.go('chapter', null, { reload: 'chapter' });
-                }, function() {
-                    $state.go('chapter');
-                });
-            }]
+                    controllerAs: 'vm'
+                }
+            },
+            resolve: {
+                entity: function () {
+                    return {
+                        name: null,
+                        number: null,
+                        volume: null,
+                        filePath: null,
+                        pages: null,
+                        releaseDate: null,
+                        createdBy: null,
+                        createdDate: null,
+                        lastModifiedBy: null,
+                        lastModifiedDate: null,
+                        id: null
+                    };
+                }
+            }
         })
         .state('chapter.edit', {
             parent: 'chapter',

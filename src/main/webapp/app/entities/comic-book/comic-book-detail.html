@@ -37,11 +37,11 @@
         <div layout="row">
             <div class="md-headline">Главы</div>
             <span flex></span>
-            <md-button has-authority="ROLE_ADMIN" ui-sref="chapter.new">Добавить главу</md-button>
+            <md-button has-authority="ROLE_ADMIN" ng-click="vm.showChapterDialog($event)">Добавить главу</md-button>
         </div>
         <div layout="column">
             <div ng-repeat="chapter in vm.chapters">
-                <div class="md-button" layout="row">
+                <div class="md-button" ui-sref="chapter-detail({id: chapter.id})" layout="row">
                     <span ng-if="chapter.volume">Том {{chapter.volume}}.&nbsp</span>
                     <span>Глава {{chapter.number}}: {{chapter.name}}</span>
                     <span flex></span>

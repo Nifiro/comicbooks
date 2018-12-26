@@ -14,7 +14,7 @@
                 "question": "Вы уверены что хотите удалить Comic Book {{ id }}?"
             },
             "detail": {
-                "title": "Comic Book"
+                "title": "Комикс"
             },
             "title": "Title",
             "chapters": "Chapters",

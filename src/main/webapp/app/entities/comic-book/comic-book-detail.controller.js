@@ -5,10 +5,10 @@
         .module('comicbooksApp')
         .controller('ComicBookDetailController', ComicBookDetailController);
 
-    ComicBookDetailController.$inject = ['$http', '$scope', '$rootScope', '$stateParams', 'previousState', 'Genre',
-        'DataUtils', 'entity'];
+    ComicBookDetailController.$inject = ['$http', '$scope', '$rootScope', '$stateParams', '$mdDialog', 'previousState',
+        'Genre', 'DataUtils', 'entity'];
 
-    function ComicBookDetailController($http, $scope, $rootScope, $stateParams, previousState, Genre,
+    function ComicBookDetailController($http, $scope, $rootScope, $stateParams, $mdDialog, previousState, Genre,
                                        DataUtils, entity) {
         var vm = this;
 
@@ -22,6 +22,7 @@
         vm.getMonth = getMonth;
         vm.getYear = getYear;
         vm.getDate = getDate;
+        vm.showChapterDialog = showChapterDialog;
         vm.genres = [];
         vm.chapters = [];
 
@@ -47,7 +48,6 @@
             $http.get('/api/series?comicBookId.equals=' + vm.comicBook.id).success(function (response) {
                 response.forEach(function (series) {
                     $http.get('/api/chapters?id.equals=' + series.chapterId).success(function (chapter) {
-                        console.log(chapter);
                         vm.chapters.push(chapter[0]);
                     })
                 })
@@ -89,6 +89,28 @@
 
         function getMonth(iso) {
             return new Date(iso).getMonth() + 1;
+        }
+
+        function showChapterDialog(event) {
+            $mdDialog.show({
+                controller: ChapterDialogController,
+                templateUrl: 'app/entities/chapter/chapter-dialog.html',
+                parent: angular.element(document.body),
+                targetEvent: event
+            });
+        }
+
+        ChapterDialogController.$inject = ['$scope', '$mdDialog'];
+
+        function ChapterDialogController($scope, $mdDialog) {
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.add = function () {
+                $mdDialog.cancel();
+                console.log(vm.comicBook.id);
+            }
         }
     }
 })();

@@ -58,3 +58,25 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.cb-right {
+    position: fixed;
+    top: 50%;
+    left: 100%;
+    -webkit-transform: translate(-100%, -50%);
+    -moz-transform: translate(-100%, -50%);
+    -ms-transform: translate(-100%, -50%);
+    -o-transform: translate(-100%, -50%);
+    transform: translate(-100%, -50%);
+}
+
+.cb-left {
+    position: fixed;
+    top: 50%;
+    right: 100%;
+    -webkit-transform: translate(100%, -50%);
+    -moz-transform: translate(100%, -50%);
+    -ms-transform: translate(100%, -50%);
+    -o-transform: translate(100%, -50%);
+    transform: translate(100%, -50%);
+}

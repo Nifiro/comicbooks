@@ -53,17 +53,6 @@
             }
         }
 
-        function uploadFile(file, type) {
-            Upload.upload({
-                url: '/api/comic-books/upload',
-                data: {
-                    file: file,
-                    id: vm.comicBook.id,
-                    type: type
-                }
-            });
-        }
-
         function showAlert(message) {
             var toast = $mdToast.simple()
                 .textContent(message)
@@ -84,23 +73,41 @@
                 });
             });
 
-            showAlert('Комикс "' + vm.comicBook.title + '" успешно добавлен');
-            uploadFile(vm.coverFile, 'cover');
-            uploadFile(vm.imageFile, 'background');
+            Upload.upload({
+                url: '/api/comic-books/upload',
+                data: {
+                    file: vm.coverFile,
+                    id: vm.comicBook.id,
+                    type: 'cover'
+                }
+            }).then(function (response) {
+                console.log('after upload cover');
+                console.log(response);
+                Upload.upload({
+                    url: '/api/comic-books/upload',
+                    data: {
+                        file: vm.imageFile,
+                        id: vm.comicBook.id,
+                        type: 'background'
+                    }
+                }).then(function (response) {
+                    vm.comicBook = {
+                        title: vm.comicBook.title,
+                        chapters: vm.comicBook.chapters,
+                        description: vm.comicBook.description,
+                        publisher: vm.comicBook.publisher,
+                        serializedFrom: vm.comicBook.serializedFrom,
+                        serializedTo: vm.comicBook.serializedTo,
+                        imagePath: vm.comicBook.imagePath,
+                        coverPath: vm.comicBook.coverPath,
+                        status: vm.comicBook.status,
+                        id: null,
+                        authorId: null
+                    };
 
-            vm.comicBook = {
-                title: vm.comicBook.title,
-                chapters: vm.comicBook.chapters,
-                description: vm.comicBook.description,
-                publisher: vm.comicBook.publisher,
-                serializedFrom: vm.comicBook.serializedFrom,
-                serializedTo: vm.comicBook.serializedTo,
-                imagePath: vm.comicBook.imagePath,
-                coverPath: vm.comicBook.coverPath,
-                status: vm.comicBook.status,
-                id: null,
-                authorId: null
-            };
+                    showAlert('Комикс "' + vm.comicBook.title + '" успешно добавлен');
+                });
+            });
         }
 
         function onSaveError() {

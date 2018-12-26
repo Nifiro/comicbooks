@@ -5,17 +5,68 @@
         .module('comicbooksApp')
         .controller('ChapterDetailController', ChapterDetailController);
 
-    ChapterDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Chapter'];
+    ChapterDetailController.$inject = ['$http', '$scope', '$rootScope', '$stateParams', 'previousState',
+        'entity', 'Chapter'];
 
-    function ChapterDetailController($scope, $rootScope, $stateParams, previousState, entity, Chapter) {
+    function ChapterDetailController($http, $scope, $rootScope, $stateParams, previousState, entity, Chapter) {
         var vm = this;
 
         vm.chapter = entity;
         vm.previousState = previousState.name;
+        vm.page = 1;
+        vm.image = null;
+
+        vm.nextPage = nextPage;
+        vm.prevPage = prevPage;
+        vm.lastPage = lastPage;
+        vm.firstPage = firstPage;
+        vm.keyPressed = keyPressed;
 
         var unsubscribe = $rootScope.$on('comicbooksApp:chapterUpdate', function(event, result) {
             vm.chapter = result;
         });
         $scope.$on('$destroy', unsubscribe);
+
+        loadPage();
+
+        function loadPage() {
+            $http({
+                method: 'GET',
+                url: '/api/chapter/' + vm.chapter.id + '/page/' + vm.page,
+                responseType: 'blob'
+            }).success(function (data, status, headers) {
+                var contentType = headers('Content-Type');
+                var file = new Blob([data], {type: contentType});
+                vm.image = URL.createObjectURL(file);
+            });
+        }
+
+        function prevPage() {
+            if (vm.page > 1) {
+                vm.page--;
+                loadPage();
+            }
+        }
+
+        function nextPage() {
+            if (vm.page < vm.chapter.pages) {
+                vm.page++;
+                loadPage();
+            }
+        }
+
+        function lastPage() {
+            vm.page = vm.chapter.pages;
+            loadPage();
+        }
+
+        function firstPage() {
+            vm.page = 1;
+            loadPage();
+        }
+
+        function keyPressed(event) {
+
+        }
     }
 })();

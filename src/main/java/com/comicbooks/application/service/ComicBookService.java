@@ -118,7 +118,6 @@ public class ComicBookService {
                 throw new FileSystemException("Could not create chapter directory: "
                     + targetLocation.getFileName());
             }
-            chapterDTO.setFilePath(targetLocation.toString());
         }
         try {
             byte[] buffer = new byte[1024];
@@ -132,9 +131,10 @@ public class ComicBookService {
             ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(convertedFile));
             int page = 1;
             ZipEntry entry = zipInputStream.getNextEntry();
+            String extension = "";
             while (entry != null) {
                 String name = entry.getName();
-                String extension = name.substring(name.lastIndexOf('.') + 1);
+                extension = name.substring(name.lastIndexOf('.') + 1);
                 File pageFile = new File(targetLocation.toString(), String.valueOf(page) + "." + extension);
                 FileOutputStream outputStream = new FileOutputStream(pageFile);
                 int len;
@@ -145,6 +145,7 @@ public class ComicBookService {
                 entry = zipInputStream.getNextEntry();
                 page++;
             }
+            chapterDTO.setFilePath(targetLocation.toString() + File.separator + "." + extension);
             zipInputStream.closeEntry();
             zipInputStream.close();
             if(convertedFile.delete())

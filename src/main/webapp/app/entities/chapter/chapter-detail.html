@@ -1,59 +1,11 @@
-
-<div>
-    <h2><span data-translate="comicbooksApp.chapter.detail.title">Chapter</span> {{vm.chapter.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="comicbooksApp.chapter.name">Name</span></dt>
-        <dd>
-            <span>{{vm.chapter.name}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.number">Number</span></dt>
-        <dd>
-            <span>{{vm.chapter.number}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.volume">Volume</span></dt>
-        <dd>
-            <span>{{vm.chapter.volume}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.filePath">File Path</span></dt>
-        <dd>
-            <span>{{vm.chapter.filePath}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.pages">Pages</span></dt>
-        <dd>
-            <span>{{vm.chapter.pages}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.releaseDate">Release Date</span></dt>
-        <dd>
-            <span>{{vm.chapter.releaseDate | date:'medium'}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.createdBy">Created By</span></dt>
-        <dd>
-            <span>{{vm.chapter.createdBy}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.createdDate">Created Date</span></dt>
-        <dd>
-            <span>{{vm.chapter.createdDate | date:'medium'}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.lastModifiedBy">Last Modified By</span></dt>
-        <dd>
-            <span>{{vm.chapter.lastModifiedBy}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.chapter.lastModifiedDate">Last Modified Date</span></dt>
-        <dd>
-            <span>{{vm.chapter.lastModifiedDate | date:'medium'}}</span>
-        </dd>
-    </dl>
-
-    <button type="submit"
-            ui-sref="{{ vm.previousState }}"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
-
-    <button type="button" ui-sref="chapter-detail.edit({id:vm.chapter.id})" class="btn btn-primary">
-        <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
-    </button>
+<div layout="column" layout-align="start center" ng-keypress="vm.keyPressed($event)">
+    <img ng-src="{{vm.image}}" alt="page">
+    <div class="md-raised md-button cb-right" ng-click="vm.nextPage()">След.</div>
+    <div class="md-raised md-button cb-left" ng-click="vm.prevPage()">Пред.</div>
+    <div layout="row">
+        <md-button ng-click="vm.firstPage()">Первая</md-button>
+        <md-button ng-click="vm.prevPage()">Пердыдущая</md-button>
+        <md-button ng-click="vm.nextPage()">Следующая</md-button>
+        <md-button ng-click="vm.lastPage()">Последняя</md-button>
+    </div>
 </div>

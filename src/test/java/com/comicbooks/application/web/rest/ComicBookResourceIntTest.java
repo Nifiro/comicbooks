@@ -5,11 +5,11 @@ import com.comicbooks.application.ComicbooksApp;
 import com.comicbooks.application.domain.ComicBook;
 import com.comicbooks.application.domain.Author;
 import com.comicbooks.application.repository.ComicBookRepository;
+import com.comicbooks.application.service.ChapterService;
 import com.comicbooks.application.service.ComicBookService;
 import com.comicbooks.application.service.dto.ComicBookDTO;
 import com.comicbooks.application.service.mapper.ComicBookMapper;
 import com.comicbooks.application.web.rest.errors.ExceptionTranslator;
-import com.comicbooks.application.service.dto.ComicBookCriteria;
 import com.comicbooks.application.service.ComicBookQueryService;
 
 import org.junit.Before;
@@ -25,7 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
@@ -97,6 +96,9 @@ public class ComicBookResourceIntTest {
     private ComicBookService comicBookService;
 
     @Autowired
+    private ChapterService chapterService;
+
+    @Autowired
     private ComicBookQueryService comicBookQueryService;
 
     @Autowired
@@ -118,7 +120,7 @@ public class ComicBookResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ComicBookResource comicBookResource = new ComicBookResource(comicBookService, comicBookQueryService);
+        final ComicBookResource comicBookResource = new ComicBookResource(comicBookService, chapterService, comicBookQueryService);
         this.restComicBookMockMvc = MockMvcBuilders.standaloneSetup(comicBookResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

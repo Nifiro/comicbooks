@@ -1,6 +1,7 @@
 package com.comicbooks.application.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.comicbooks.application.service.ChapterService;
 import com.comicbooks.application.service.ComicBookQueryService;
 import com.comicbooks.application.service.ComicBookService;
 import com.comicbooks.application.service.dto.ChapterDTO;
@@ -17,13 +18,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -45,10 +44,13 @@ public class ComicBookResource {
 
     private final ComicBookService comicBookService;
 
+    private final ChapterService chapterService;
+
     private final ComicBookQueryService comicBookQueryService;
 
-    public ComicBookResource(ComicBookService comicBookService, ComicBookQueryService comicBookQueryService) {
+    public ComicBookResource(ComicBookService comicBookService, ChapterService chapterService, ComicBookQueryService comicBookQueryService) {
         this.comicBookService = comicBookService;
+        this.chapterService = chapterService;
         this.comicBookQueryService = comicBookQueryService;
     }
 
@@ -192,6 +194,24 @@ public class ComicBookResource {
         }
 
         return constructResponseEntity(request, backgroundResource);
+    }
+
+    @GetMapping("/chapter/{id}/page/{page}")
+    public ResponseEntity<Resource> getPage(@PathVariable Long id, @PathVariable Long page, HttpServletRequest request) {
+        log.debug("REST request to download page : {}", page);
+        ChapterDTO chapterDTO = chapterService.findOne(id);
+
+        Resource pageResource;
+        try {
+            int start = chapterDTO.getFilePath().lastIndexOf(".");
+            String extension = chapterDTO.getFilePath().substring(start);
+            String path = chapterDTO.getFilePath().substring(0, start);
+            pageResource = comicBookService.loadFileAsResource(path + page + extension);
+        } catch (MalformedURLException | NullPointerException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return constructResponseEntity(request, pageResource);
     }
 
     private ResponseEntity<Resource> constructResponseEntity(HttpServletRequest request, Resource resource) {

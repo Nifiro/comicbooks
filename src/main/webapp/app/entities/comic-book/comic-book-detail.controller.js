@@ -100,9 +100,9 @@
             });
         }
 
-        ChapterDialogController.$inject = ['$scope', '$mdDialog', 'Chapter', 'Series'];
+        ChapterDialogController.$inject = ['$scope', '$http', '$mdDialog', 'Chapter', 'Series', 'Upload'];
 
-        function ChapterDialogController($scope, $mdDialog, Chapter, Series) {
+        function ChapterDialogController($scope, $http, $mdDialog, Chapter, Series, Upload) {
             $scope.isSaving = false;
             $scope.chapter = {
                 name: null,
@@ -120,7 +120,6 @@
 
             $scope.save = function () {
                 $scope.isSaving = true;
-                console.log($scope.chapter);
                 if ($scope.chapter.id !== null) {
                     Chapter.update($scope.chapter, onSaveSuccess);
                 } else {
@@ -135,7 +134,15 @@
                     comicBookId: vm.comicBook.id,
                     chapterId: result.id
                 };
-                Series.save(series, function (result) {
+                Series.save(series);
+                Upload.upload({
+                    url: '/api/comic-books/' + vm.comicBook.id + '/chapter',
+                    data: {
+                        file: $scope.chapter.comicFile,
+                        id: vm.comicBook.id,
+                        chapterId: $scope.chapter.id
+                    }
+                }).then(function (response) {
                     vm.chapters.push($scope.chapter);
                     $scope.cancel();
                 });

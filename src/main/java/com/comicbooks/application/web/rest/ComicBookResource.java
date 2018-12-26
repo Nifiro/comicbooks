@@ -3,6 +3,7 @@ package com.comicbooks.application.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.comicbooks.application.service.ComicBookQueryService;
 import com.comicbooks.application.service.ComicBookService;
+import com.comicbooks.application.service.dto.ChapterDTO;
 import com.comicbooks.application.service.dto.ComicBookCriteria;
 import com.comicbooks.application.service.dto.ComicBookDTO;
 import com.comicbooks.application.web.rest.errors.BadRequestAlertException;
@@ -142,7 +143,6 @@ public class ComicBookResource {
                                                         @RequestParam String type) {
         log.debug("REST request to upload ComicBook: {}", id);
         ComicBookDTO comicBookDTO;
-        log.debug("REST request to upload Book : {}:", id);
         try {
             comicBookDTO = comicBookService.uploadComicBook(file, id, type);
         } catch (FileSystemException | BadRequestException e) {
@@ -152,7 +152,7 @@ public class ComicBookResource {
     }
 
     @GetMapping("/comic-books/{id}/cover")
-    public ResponseEntity<Resource>/*HttpEntity<?>*/ downloadCover(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<Resource> downloadCover(@PathVariable Long id, HttpServletRequest request) {
         log.debug("REST request to download comic book cover : {}", id);
         ComicBookDTO dto = comicBookService.findOne(id);
 
@@ -164,26 +164,19 @@ public class ComicBookResource {
         }
 
         return constructResponseEntity(request, coverResource);
-/*
-        log.debug("REST request to get Book : {}", id);
-        File cover = comicBookService.getCoverImage(id);
+    }
 
-        byte[] image;
-
+    @PostMapping("/comic-books/{id}/chapter")
+    public ResponseEntity<ChapterDTO> uploadComicBook(@RequestParam MultipartFile file, @PathVariable Long id,
+                                                      @RequestParam Long chapterId) {
+        log.debug("REST request to upload chapter: {}", id);
+        ChapterDTO chapterDTO;
         try {
-            image = FileCopyUtils.copyToByteArray(cover);
-        } catch (IOException e) {
-            e.printStackTrace();
+            chapterDTO = comicBookService.uploadChapter(file, id, chapterId);
+        } catch (FileSystemException e) {
             return ResponseEntity.badRequest().build();
         }
-
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(new MediaType("application", "octet-stream"));
-        header.set("Content-Disposition", "inline; filename=" + cover.getName());
-        header.setContentLength(image.length);
-
-        return new HttpEntity<>(image, header);
-*/
+        return ResponseEntity.ok().body(chapterDTO);
     }
 
     @GetMapping("/comic-books/{id}/background")

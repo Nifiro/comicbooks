@@ -3,6 +3,7 @@ package com.comicbooks.application.service;
 import com.comicbooks.application.config.StorageProperties;
 import com.comicbooks.application.domain.ComicBook;
 import com.comicbooks.application.repository.ComicBookRepository;
+import com.comicbooks.application.service.dto.ChapterDTO;
 import com.comicbooks.application.service.dto.ComicBookDTO;
 import com.comicbooks.application.service.mapper.ComicBookMapper;
 import io.undertow.util.BadRequestException;
@@ -17,9 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 
 /**
@@ -35,11 +40,14 @@ public class ComicBookService {
 
     private final ComicBookRepository comicBookRepository;
 
+    private final ChapterService chapterService;
+
     private final ComicBookMapper comicBookMapper;
 
     public ComicBookService(ComicBookRepository comicBookRepository, StorageProperties storageProperties,
-                            ComicBookMapper comicBookMapper) {
+                            ChapterService chapterService, ComicBookMapper comicBookMapper) {
         this.comicBookRepository = comicBookRepository;
+        this.chapterService = chapterService;
         this.comicBookMapper = comicBookMapper;
         this.storageLocation = Paths.get(storageProperties.getUploadDir());
         try {
@@ -98,6 +106,55 @@ public class ComicBookService {
         comicBookRepository.delete(id);
     }
 
+    public ChapterDTO uploadChapter(MultipartFile file, Long id, Long chapterId) throws FileSystemException {
+        ComicBookDTO comicBookDTO = findOne(id);
+        ChapterDTO chapterDTO = chapterService.findOne(chapterId);
+        Path comicBookDir = storageLocation.resolve(comicBookDTO.getId().toString());
+        Path targetLocation = comicBookDir.resolve(chapterId.toString());
+        if (!Files.exists(targetLocation)) {
+            try {
+                Files.createDirectories(targetLocation);
+            } catch (IOException e) {
+                throw new FileSystemException("Could not create chapter directory: "
+                    + targetLocation.getFileName());
+            }
+            chapterDTO.setFilePath(targetLocation.toString());
+        }
+        try {
+            byte[] buffer = new byte[1024];
+            File convertedFile = new File(targetLocation.resolve(file.getOriginalFilename()).toString());
+            if(convertedFile.createNewFile())
+            {
+                FileOutputStream fileOutputStream = new FileOutputStream(convertedFile);
+                fileOutputStream.write(file.getBytes());
+                fileOutputStream.close();
+            }
+            ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(convertedFile));
+            int page = 1;
+            ZipEntry entry = zipInputStream.getNextEntry();
+            while (entry != null) {
+                String name = entry.getName();
+                String extension = name.substring(name.lastIndexOf('.') + 1);
+                File pageFile = new File(targetLocation.toString(), String.valueOf(page) + "." + extension);
+                FileOutputStream outputStream = new FileOutputStream(pageFile);
+                int len;
+                while ((len = zipInputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, len);
+                }
+                outputStream.close();
+                entry = zipInputStream.getNextEntry();
+                page++;
+            }
+            zipInputStream.closeEntry();
+            zipInputStream.close();
+            if(convertedFile.delete())
+                log.debug("Temporary file was successfully deleted");
+        } catch (IOException e) {
+            throw new FileSystemException("Could not store file " + file.getName());
+        }
+        return chapterService.save(chapterDTO);
+    }
+
     public ComicBookDTO uploadComicBook(MultipartFile file, Long id, String type) throws BadRequestException, FileSystemException {
         ComicBookDTO comicBookDTO = findOne(id);
         String extension = "";
@@ -149,10 +206,5 @@ public class ComicBookService {
             return resource;
         else
             throw new MalformedURLException("File not found: " + path);
-    }
-
-    public File getCoverImage(Long id) {
-        ComicBookDTO comicBookDTO = findOne(id);
-        return new File(comicBookDTO.getCoverPath());
     }
 }

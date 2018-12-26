@@ -1,14 +1,15 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('comicbooksApp')
         .controller('ChapterDetailController', ChapterDetailController);
 
-    ChapterDetailController.$inject = ['$http', '$scope', '$rootScope', '$stateParams', 'previousState',
-        'entity', 'Chapter'];
+    ChapterDetailController.$inject = ['$http', '$scope', '$rootScope', '$stateParams',
+        '$document', 'previousState', 'entity', 'Chapter'];
 
-    function ChapterDetailController($http, $scope, $rootScope, $stateParams, previousState, entity, Chapter) {
+    function ChapterDetailController($http, $scope, $rootScope, $stateParams, $document,
+                                     previousState, entity, Chapter) {
         var vm = this;
 
         vm.chapter = entity;
@@ -20,9 +21,8 @@
         vm.prevPage = prevPage;
         vm.lastPage = lastPage;
         vm.firstPage = firstPage;
-        vm.keyPressed = keyPressed;
 
-        var unsubscribe = $rootScope.$on('comicbooksApp:chapterUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('comicbooksApp:chapterUpdate', function (event, result) {
             vm.chapter = result;
         });
         $scope.$on('$destroy', unsubscribe);
@@ -65,8 +65,12 @@
             loadPage();
         }
 
-        function keyPressed(event) {
-
-        }
+        $document.keydown(function keyPressed(event) {
+            console.log(event);
+            if (event.keyCode === 37)
+                prevPage();
+            else if (event.keyCode === 39)
+                nextPage();
+        });
     }
 })();

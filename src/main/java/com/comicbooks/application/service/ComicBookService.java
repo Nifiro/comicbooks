@@ -8,14 +8,17 @@ import com.comicbooks.application.service.mapper.ComicBookMapper;
 import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.*;
 
 
@@ -137,5 +140,19 @@ public class ComicBookService {
             throw new FileSystemException("Could not store file " + fileName);
         }
         return save(comicBookDTO);
+    }
+
+    public Resource loadFileAsResource(String path) throws MalformedURLException {
+        Path filePath = Paths.get(path);
+        Resource resource = new UrlResource(filePath.toUri());
+        if (resource.exists())
+            return resource;
+        else
+            throw new MalformedURLException("File not found: " + path);
+    }
+
+    public File getCoverImage(Long id) {
+        ComicBookDTO comicBookDTO = findOne(id);
+        return new File(comicBookDTO.getCoverPath());
     }
 }

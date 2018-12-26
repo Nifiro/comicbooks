@@ -1,29 +1,32 @@
 package com.comicbooks.application.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.comicbooks.application.service.ComicBookQueryService;
 import com.comicbooks.application.service.ComicBookService;
+import com.comicbooks.application.service.dto.ComicBookCriteria;
+import com.comicbooks.application.service.dto.ComicBookDTO;
 import com.comicbooks.application.web.rest.errors.BadRequestAlertException;
 import com.comicbooks.application.web.rest.util.HeaderUtil;
 import com.comicbooks.application.web.rest.util.PaginationUtil;
-import com.comicbooks.application.service.dto.ComicBookDTO;
-import com.comicbooks.application.service.dto.ComicBookCriteria;
-import com.comicbooks.application.service.ComicBookQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.Optional;
@@ -146,5 +149,71 @@ public class ComicBookResource {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().body(comicBookDTO);
+    }
+
+    @GetMapping("/comic-books/{id}/cover")
+    public ResponseEntity<Resource>/*HttpEntity<?>*/ downloadCover(@PathVariable Long id, HttpServletRequest request) {
+        log.debug("REST request to download comic book cover : {}", id);
+        ComicBookDTO dto = comicBookService.findOne(id);
+
+        Resource coverResource;
+        try {
+            coverResource = comicBookService.loadFileAsResource(dto.getCoverPath());
+        } catch (MalformedURLException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return constructResponseEntity(request, coverResource);
+/*
+        log.debug("REST request to get Book : {}", id);
+        File cover = comicBookService.getCoverImage(id);
+
+        byte[] image;
+
+        try {
+            image = FileCopyUtils.copyToByteArray(cover);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(new MediaType("application", "octet-stream"));
+        header.set("Content-Disposition", "inline; filename=" + cover.getName());
+        header.setContentLength(image.length);
+
+        return new HttpEntity<>(image, header);
+*/
+    }
+
+    @GetMapping("/comic-books/{id}/background")
+    public ResponseEntity<Resource> downloadBackground(@PathVariable Long id, HttpServletRequest request) {
+        log.debug("REST request to download comic book background : {}", id);
+        ComicBookDTO dto = comicBookService.findOne(id);
+
+        Resource backgroundResource;
+        try {
+            backgroundResource = comicBookService.loadFileAsResource(dto.getImagePath());
+        } catch (MalformedURLException | NullPointerException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return constructResponseEntity(request, backgroundResource);
+    }
+
+    private ResponseEntity<Resource> constructResponseEntity(HttpServletRequest request, Resource resource) {
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            log.info("Could not determine file type.");
+        }
+        if (contentType == null)
+            contentType = "application/octet-stream";
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(contentType))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+                + resource.getFilename() + "\"")
+            .body(resource);
     }
 }

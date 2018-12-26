@@ -13,7 +13,7 @@
             <div class="md-dialog-content" layout="column">
                 <md-input-container flex class="md-block">
                     <label>Заголовок</label>
-                    <input type="text" name="title" ng-model="title" required>
+                    <input type="text" name="title" ng-model="chapter.name" required>
                     <div ng-messages="chapterForm.title.$error">
                         <div ng-message="required">Это поле обязательно к заполнению.</div>
                     </div>
@@ -22,12 +22,12 @@
                 <div layout="row">
                     <md-input-container flex class="md-block">
                         <label>Том</label>
-                        <input type="number" name="volume" ng-model="volume">
+                        <input type="number" name="volume" ng-model="chapter.volume">
                     </md-input-container>
 
                     <md-input-container flex class="md-block">
                         <label>Глава</label>
-                        <input type="number" name="chapter" ng-model="chapter" required>
+                        <input type="number" name="chapter" ng-model="chapter.number" required>
                         <div ng-messages="chapterForm.chapter.$error">
                             <div ng-message="required">Это поле обязательно к заполнению.</div>
                         </div>
@@ -36,18 +36,26 @@
 
                 <div layout="row">
                     <md-input-container flex class="md-block">
+                        <label>Количество страниц</label>
+                        <input type="number" name="pages" ng-model="chapter.pages" required>
+                        <div ng-messages="chapterForm.pages.$error">
+                            <div ng-message="required">Это поле обязательно к заполнению.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex class="md-block">
                         <label>Дата релиза</label>
-                        <input type="date" name="releaseDate" ng-model="releaseDate">
+                        <input type="date" name="releaseDate" ng-model="chapter.releaseDate">
                     </md-input-container>
                 </div>
-                <div ngf-select ng-model="comicFile" class="md-button" ngf-pattern="'.cbz'"
+                <div ngf-select ng-model="chapter.comicFile" class="md-button" ngf-pattern="'.cbz'"
                      ngf-accept="'.cbz'" required>Добавить комикс</div>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <span flex></span>
             <md-button ng-click="cancel()">Отмена</md-button>
-            <md-button ng-disabled="!chapterForm.$valid" ng-click="add()">Добавить</md-button>
+            <md-button ng-disabled="!chapterForm.$valid" ng-click="save()">Добавить</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

@@ -100,16 +100,45 @@
             });
         }
 
-        ChapterDialogController.$inject = ['$scope', '$mdDialog'];
+        ChapterDialogController.$inject = ['$scope', '$mdDialog', 'Chapter', 'Series'];
 
-        function ChapterDialogController($scope, $mdDialog) {
+        function ChapterDialogController($scope, $mdDialog, Chapter, Series) {
+            $scope.isSaving = false;
+            $scope.chapter = {
+                name: null,
+                number: null,
+                volume: null,
+                filePath: null,
+                pages: null,
+                releaseDate: null,
+                id: null
+            };
+
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
 
-            $scope.add = function () {
-                $mdDialog.cancel();
-                console.log(vm.comicBook.id);
+            $scope.save = function () {
+                $scope.isSaving = true;
+                console.log($scope.chapter);
+                if ($scope.chapter.id !== null) {
+                    Chapter.update($scope.chapter, onSaveSuccess);
+                } else {
+                    Chapter.save($scope.chapter, onSaveSuccess);
+                }
+            };
+
+            function onSaveSuccess(result) {
+                $scope.chapter.id = result.id;
+                $scope.isSaving = false;
+                var series = {
+                    comicBookId: vm.comicBook.id,
+                    chapterId: result.id
+                };
+                Series.save(series, function (result) {
+                    vm.chapters.push($scope.chapter);
+                    $scope.cancel();
+                });
             }
         }
     }

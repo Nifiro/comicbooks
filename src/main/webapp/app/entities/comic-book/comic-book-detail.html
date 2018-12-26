@@ -17,7 +17,8 @@
                     Издатель: {{vm.comicBook.publisher}}
                 </div>
                 <div ng-if="vm.comicBook.serializedFrom" class="cb-regular-16">
-                    Выпускается: c {{vm.getMonth(vm.comicBook.serializedFrom)}}/{{vm.getYear(vm.comicBook.serializedFrom)}}
+                    Выпускается: c
+                    {{vm.getMonth(vm.comicBook.serializedFrom)}}/{{vm.getYear(vm.comicBook.serializedFrom)}}
                     <span ng-if="vm.comicBook.serializedTo">по
                         {{vm.getMonth(vm.comicBook.serializedTo)}}/{{vm.getYear(vm.comicBook.serializedTo)}}</span>
                 </div>
@@ -45,7 +46,9 @@
                     <span ng-if="chapter.volume">Том {{chapter.volume}}.&nbsp</span>
                     <span>Глава {{chapter.number}}: {{chapter.name}}</span>
                     <span flex></span>
-                    <span>{{vm.getMonth(chapter.releaseDate)}}/{{vm.getDate(chapter.releaseDate)}}/{{vm.getYear(chapter.releaseDate)}}</span>
+                    <span ng-if="chapter.releaseDate">
+                        {{vm.getMonth(chapter.releaseDate)}}/{{vm.getDate(chapter.releaseDate)}}/{{vm.getYear(chapter.releaseDate)}}
+                    </span>
                 </div>
             </div>
         </div>

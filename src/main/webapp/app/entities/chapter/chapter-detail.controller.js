@@ -66,7 +66,6 @@
         }
 
         $document.keydown(function keyPressed(event) {
-            console.log(event);
             if (event.keyCode === 37)
                 prevPage();
             else if (event.keyCode === 39)

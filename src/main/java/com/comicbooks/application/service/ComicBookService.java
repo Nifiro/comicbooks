@@ -122,8 +122,7 @@ public class ComicBookService {
         try {
             byte[] buffer = new byte[1024];
             File convertedFile = new File(targetLocation.resolve(file.getOriginalFilename()).toString());
-            if(convertedFile.createNewFile())
-            {
+            if (convertedFile.createNewFile()) {
                 FileOutputStream fileOutputStream = new FileOutputStream(convertedFile);
                 fileOutputStream.write(file.getBytes());
                 fileOutputStream.close();
@@ -146,9 +145,10 @@ public class ComicBookService {
                 page++;
             }
             chapterDTO.setFilePath(targetLocation.toString() + File.separator + "." + extension);
+            chapterDTO.setPages(page - 1);
             zipInputStream.closeEntry();
             zipInputStream.close();
-            if(convertedFile.delete())
+            if (convertedFile.delete())
                 log.debug("Temporary file was successfully deleted");
         } catch (IOException e) {
             throw new FileSystemException("Could not store file " + file.getName());

@@ -81,8 +81,6 @@
                     type: 'cover'
                 }
             }).then(function (response) {
-                console.log('after upload cover');
-                console.log(response);
                 Upload.upload({
                     url: '/api/comic-books/upload',
                     data: {

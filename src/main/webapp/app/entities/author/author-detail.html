@@ -1,27 +1,19 @@
-
-<div>
-    <h2><span data-translate="comicbooksApp.author.detail.title">Author</span> {{vm.author.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="comicbooksApp.author.firstName">First Name</span></dt>
-        <dd>
-            <span>{{vm.author.firstName}}</span>
-        </dd>
-        <dt><span data-translate="comicbooksApp.author.lastName">Last Name</span></dt>
-        <dd>
-            <span>{{vm.author.lastName}}</span>
-        </dd>
-    </dl>
-
-    <button type="submit"
-            ui-sref="{{ vm.previousState }}"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
-
-    <button type="button" ui-sref="author-detail.edit({id:vm.author.id})" class="btn btn-primary">
-        <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
-    </button>
+<div layout="column" layout-margin ng-cloak>
+    <div class="md-whiteframe-3dp" layout="column" layout-padding>
+        <div class="md-headline">{{vm.author.firstName}} {{vm.author.lastName}}</div>
+        <md-content layout="row" layout-wrap>
+            <div ng-repeat="comicBook in vm.comicBooks" ng-model-options="{trackBy: '$value.id'}">
+                <div flex="none" class="md-button comic-book" layout="column" layout-align="start start">
+                    <img class="cb-cover" ng-init="vm.loadImage(comicBook.id, 'cover', comicBook)"
+                         ng-src="{{comicBook.image}}" alt="cover" ui-sref="comic-book-detail({id:comicBook.id})">
+                    <div class="md-body-2" ui-sref="comic-book-detail({id:comicBook.id})">
+                        {{comicBook.title}}
+                    </div>
+                    <div class="md-body-1">{{comicBook.status == 'COMPLETED' ? 'Завершен' : 'Ongoing'}},
+                        {{comicBook.chapters}} глав
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
 </div>

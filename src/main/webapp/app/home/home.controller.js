@@ -5,9 +5,9 @@
         .module('comicbooksApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state'];
+    HomeController.$inject = ['$scope', '$http', 'Principal', 'LoginService', '$state'];
 
-    function HomeController ($scope, Principal, LoginService, $state) {
+    function HomeController ($scope, $http, Principal, LoginService, $state) {
         var vm = this;
 
         vm.account = null;
@@ -28,6 +28,28 @@
         }
         function register () {
             $state.go('register');
+        }
+
+        function loadImage(id, type, comicBook) {
+            $http({
+                method: 'GET',
+                url: '/api/comic-books/' + id + '/' + type,
+                responseType: 'blob'
+            }).success(function (data, status, headers) {
+                var contentType = headers('Content-Type');
+                var file = new Blob([data], {type: contentType});
+                comicBook.image = URL.createObjectURL(file);
+            });
+        }
+
+        function getAuthor(id, comicBook) {
+            $http({
+                method: 'GET',
+                url: '/api/authors/' + id
+            }).success(function (result) {
+                comicBook.firstName = result.firstName;
+                comicBook.lastName = result.lastName
+            });
         }
     }
 })();

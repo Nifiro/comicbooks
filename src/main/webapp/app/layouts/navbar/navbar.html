@@ -2,9 +2,9 @@
     <md-button ui-sref="home">Главная</md-button>
     <md-button ui-sref="comic-book">Все комиксы</md-button>
     <md-button ui-sref="author">Авторы</md-button>
-    <md-button has-authority="ROLE_ADMIN" ng-show="vm.swaggerEnabled" ui-sref="docs">API</md-button>
+    <!--<md-button has-authority="ROLE_ADMIN" ng-show="vm.swaggerEnabled" ui-sref="docs">API</md-button>-->
     <span flex></span>
-    <md-autocomplete has-authority="ROLE_USER" flex placeholder="Поиск" md-items="comic in vm.comicBooks"
+    <md-autocomplete has-authority="ROLE_USER" flex="20" placeholder="Поиск" md-items="comic in vm.comicBooks"
                      md-item-text="comic.title" md-search-text="vm.searchText">
         <md-item-template>
             <span md-highlight-text="vm.searchText">{{item.display}}</span>

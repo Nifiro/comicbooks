@@ -18,6 +18,8 @@ public class AuthorDTO implements Serializable {
     @NotNull
     private String lastName;
 
+    private String avatarPath;
+
     public Long getId() {
         return id;
     }
@@ -40,6 +42,14 @@ public class AuthorDTO implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 
     @Override
@@ -69,6 +79,7 @@ public class AuthorDTO implements Serializable {
             "id=" + getId() +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
+            ", avatarPath='" + getAvatarPath() + "'" +
             "}";
     }
 }

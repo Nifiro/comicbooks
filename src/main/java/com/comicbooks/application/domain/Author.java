@@ -32,6 +32,9 @@ public class Author implements Serializable {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "avatar_path")
+    private String avatarPath;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -66,6 +69,19 @@ public class Author implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public Author avatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+        return this;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -94,6 +110,7 @@ public class Author implements Serializable {
             "id=" + getId() +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
+            ", avatarPath='" + getAvatarPath() + "'" +
             "}";
     }
 }

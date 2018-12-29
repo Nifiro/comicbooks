@@ -1,4 +1,4 @@
-<md-toolbar class="md-toolbar-tools" ng-switch="vm.isAuthenticated">
+<md-toolbar class="md-toolbar-tools">
     <md-button ui-sref="home">Главная</md-button>
     <md-button ui-sref="comic-book">Все комиксы</md-button>
     <md-button ui-sref="author">Авторы</md-button>
@@ -13,7 +13,7 @@
             No states matching "{{vm.searchText}}" were found.
         </md-not-found>
     </md-autocomplete>
-    <md-button class="md-raised md-warn" ng-show="vm.isAuthenticated()" ng-click="vm.logout()">Выйти</md-button>
-    <md-button class="md-raised md-warn" ng-hide="vm.isAuthenticated()" ng-click="vm.login()">Вход</md-button>
-    <md-button class="md-raised md-warn" ng-hide="vm.isAuthenticated()" ui-sref="register">Регистрация</md-button>
+    <md-button class="md-raised" ng-show="vm.isAuthenticated()" ng-click="vm.logout()">Выйти</md-button>
+    <md-button class="md-raised" ng-hide="vm.isAuthenticated()" ng-click="vm.login()">Вход</md-button>
+    <md-button class="md-raised" ng-hide="vm.isAuthenticated()" ui-sref="register">Регистрация</md-button>
 </md-toolbar>

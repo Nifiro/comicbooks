@@ -3,8 +3,8 @@
     "comicbooksApp": {
         "author" : {
             "home": {
-                "title": "Authors",
-                "createLabel": "Создать новый Author",
+                "title": "Авторы",
+                "createLabel": "Добавить автора",
                 "createOrEditLabel": "Создать или отредактировать Author"
             },
             "created": "Новый Author создан с идентификатором {{ param }}",
@@ -14,10 +14,10 @@
                 "question": "Вы уверены что хотите удалить Author {{ id }}?"
             },
             "detail": {
-                "title": "Author"
+                "title": "Автор"
             },
-            "firstName": "First Name",
-            "lastName": "Last Name"
+            "firstName": "Имя",
+            "lastName": "Фамилия"
         }
     }
 }

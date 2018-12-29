@@ -11,6 +11,7 @@
         var vm = this;
 
         vm.isNavbarCollapsed = true;
+        vm.searchText = null;
         vm.isAuthenticated = Principal.isAuthenticated;
         vm.comicBooks = ComicBook.query();
 

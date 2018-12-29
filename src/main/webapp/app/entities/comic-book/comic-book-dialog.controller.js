@@ -66,12 +66,14 @@
             vm.isSaving = false;
             vm.comicBook.id = result.id;
 
-            vm.selectedGenres.forEach(function (genre) {
-                ComicBookGenres.save({
-                    comicBookId: vm.comicBook.id,
-                    genreId: genre.id
+            if (vm.selectedGenres) {
+                vm.selectedGenres.forEach(function (genre) {
+                    ComicBookGenres.save({
+                        comicBookId: vm.comicBook.id,
+                        genreId: genre.id
+                    });
                 });
-            });
+            }
 
             Upload.upload({
                 url: '/api/comic-books/upload',

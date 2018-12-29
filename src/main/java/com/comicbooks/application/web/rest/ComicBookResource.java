@@ -1,9 +1,11 @@
 package com.comicbooks.application.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.comicbooks.application.service.AuthorService;
 import com.comicbooks.application.service.ChapterService;
 import com.comicbooks.application.service.ComicBookQueryService;
 import com.comicbooks.application.service.ComicBookService;
+import com.comicbooks.application.service.dto.AuthorDTO;
 import com.comicbooks.application.service.dto.ChapterDTO;
 import com.comicbooks.application.service.dto.ComicBookCriteria;
 import com.comicbooks.application.service.dto.ComicBookDTO;
@@ -28,6 +30,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystemException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,14 +46,19 @@ public class ComicBookResource {
 
     private static final String ENTITY_NAME = "comicBook";
 
+    private static final Path CONTENT_ROOT = Paths.get("./src/main/webapp/content/images");
+
     private final ComicBookService comicBookService;
+
+    private final AuthorService authorService;
 
     private final ChapterService chapterService;
 
     private final ComicBookQueryService comicBookQueryService;
 
-    public ComicBookResource(ComicBookService comicBookService, ChapterService chapterService, ComicBookQueryService comicBookQueryService) {
+    public ComicBookResource(ComicBookService comicBookService, AuthorService authorService, ChapterService chapterService, ComicBookQueryService comicBookQueryService) {
         this.comicBookService = comicBookService;
+        this.authorService = authorService;
         this.chapterService = chapterService;
         this.comicBookQueryService = comicBookQueryService;
     }
@@ -141,12 +150,12 @@ public class ComicBookResource {
     }
 
     @PostMapping("/comic-books/upload")
-    public ResponseEntity<ComicBookDTO> uploadComicBook(@RequestParam MultipartFile file, @RequestParam Long id,
-                                                        @RequestParam String type) {
+    public ResponseEntity<ComicBookDTO> uploadImage(@RequestParam MultipartFile file, @RequestParam Long id,
+                                                    @RequestParam String type) {
         log.debug("REST request to upload ComicBook: {}", id);
         ComicBookDTO comicBookDTO;
         try {
-            comicBookDTO = comicBookService.uploadComicBook(file, id, type);
+            comicBookDTO = comicBookService.uploadImage(file, id, type);
         } catch (FileSystemException | BadRequestException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -169,8 +178,8 @@ public class ComicBookResource {
     }
 
     @PostMapping("/comic-books/{id}/chapter")
-    public ResponseEntity<ChapterDTO> uploadComicBook(@RequestParam MultipartFile file, @PathVariable Long id,
-                                                      @RequestParam Long chapterId) {
+    public ResponseEntity<ChapterDTO> uploadImage(@RequestParam MultipartFile file, @PathVariable Long id,
+                                                  @RequestParam Long chapterId) {
         log.debug("REST request to upload chapter: {}", id);
         ChapterDTO chapterDTO;
         try {
@@ -195,6 +204,22 @@ public class ComicBookResource {
 
         return constructResponseEntity(request, backgroundResource);
     }
+
+    @GetMapping("/authors/{id}/avatar")
+    public ResponseEntity<Resource> downloadAvatar(@PathVariable Long id, HttpServletRequest request) {
+        log.debug("REST request to download avatar for author : {}", id);
+        AuthorDTO dto = authorService.findOne(id);
+
+        Resource avatar;
+        try {
+            avatar = comicBookService.loadFileAsResource(dto.getAvatarPath());
+        } catch (MalformedURLException | NullPointerException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return constructResponseEntity(request, avatar);
+    }
+
 
     @GetMapping("/chapter/{id}/page/{page}")
     public ResponseEntity<Resource> getPage(@PathVariable Long id, @PathVariable Long page, HttpServletRequest request) {

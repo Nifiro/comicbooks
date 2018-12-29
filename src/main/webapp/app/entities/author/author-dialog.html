@@ -1,54 +1,47 @@
-
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
-
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myAuthorLabel" data-translate="comicbooksApp.author.home.createOrEditLabel">Create or edit a Author</h4>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.author.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.author.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.author.firstName" for="field_firstName">First Name</label>
-            <input type="text" class="form-control" name="firstName" id="field_firstName"
-                    ng-model="vm.author.firstName"
-                    required/>
-            <div ng-show="editForm.firstName.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.firstName.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
+<md-dialog flex="50">
+    <form name="authorForm" role="form">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Добавить автора</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="content/images/close.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="comicbooksApp.author.lastName" for="field_lastName">Last Name</label>
-            <input type="text" class="form-control" name="lastName" id="field_lastName"
-                    ng-model="vm.author.lastName"
-                    required/>
-            <div ng-show="editForm.lastName.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.lastName.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="field_lastName">Путь к аватару</label>
-            <input type="text" class="form-control" name="avatarPath" id="field_avatarPath" ng-model="vm.author.avatarPath"/>
-        </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="column">
+                <div layout="column" layout-align="start center">
+                    <img class="cb-add-avatar"
+                         ngf-thumbnail="author.avatar || 'content/images/no_avatar.svg'" alt="avatar">
+                    <div ngf-select ng-model="author.avatar" class="md-button"
+                         ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"
+                         ngf-resize="{width: 300, height: 300, centerCrop: true}" required>Добавить аватар
+                    </div>
+                </div>
+                <div layout="column">
+                    <md-input-container flex class="md-block">
+                        <label>Имя</label>
+                        <input type="text" name="firstName" ng-model="author.firstName" required>
+                        <div ng-messages="authorForm.firstName.$error">
+                            <div ng-message="required">Это поле обязательно к заполнению.</div>
+                        </div>
+                    </md-input-container>
 
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
-        </button>
-    </div>
-</form>
+                    <md-input-container flex class="md-block">
+                        <label>Фамилия</label>
+                        <input type="text" name="lastName" ng-model="author.lastName" required>
+                        <div ng-messages="authorForm.lastName.$error">
+                            <div ng-message="required">Это поле обязательно к заполнению.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">Отмена</md-button>
+            <md-button ng-disabled="!authorForm.$valid" ng-click="save()">Добавить</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

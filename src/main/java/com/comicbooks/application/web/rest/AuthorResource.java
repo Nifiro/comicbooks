@@ -2,6 +2,7 @@ package com.comicbooks.application.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.comicbooks.application.service.AuthorService;
+import com.comicbooks.application.service.ComicBookService;
 import com.comicbooks.application.web.rest.errors.BadRequestAlertException;
 import com.comicbooks.application.web.rest.util.HeaderUtil;
 import com.comicbooks.application.web.rest.util.PaginationUtil;
@@ -11,17 +12,22 @@ import com.comicbooks.application.service.AuthorQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,10 +44,13 @@ public class AuthorResource {
 
     private final AuthorService authorService;
 
+    private final ComicBookService comicBookService;
+
     private final AuthorQueryService authorQueryService;
 
-    public AuthorResource(AuthorService authorService, AuthorQueryService authorQueryService) {
+    public AuthorResource(AuthorService authorService, ComicBookService comicBookService, AuthorQueryService authorQueryService) {
         this.authorService = authorService;
+        this.comicBookService = comicBookService;
         this.authorQueryService = authorQueryService;
     }
 
@@ -129,5 +138,18 @@ public class AuthorResource {
         log.debug("REST request to delete Author : {}", id);
         authorService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @PostMapping("/authors/upload")
+    public ResponseEntity<AuthorDTO> uploadAvatar(MultipartFile file, Long id) {
+        log.debug("REST request to upload avatar for author : {}", id);
+
+        AuthorDTO authorDTO;
+        try {
+            authorDTO = comicBookService.uploadAvatar(file, id);
+        } catch (FileSystemException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(authorDTO);
     }
 }

@@ -1,10 +1,23 @@
-.image-placeholder {
+.cb-add-cover {
     width: 300px;
     height: 450px;
     border: 1px outset grey;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+}
+
+.cb-add-avatar {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+}
+
+.cb-avatar {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    width: 183px;
+    height: 183px;
 }
 
 .cb-cover {
@@ -16,10 +29,6 @@
     width: 190px;
     padding-top: 10px;
     padding-bottom: 10px;
-}
-
-.cb-container {
-    max-width: 1400px;
 }
 
 .cb-background {

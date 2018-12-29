@@ -5,17 +5,15 @@
             <div  id="toastParent" layout-gt-sm="row" layout-sm="column" layout-padding>
                 <div flex-gt-sm="nogrow" flex-sm="auto">
                     <div layout="column" layout-align="start center">
-                        <div class="image-placeholder">
+                        <div class="cb-add-cover">
                             <img ngf-thumbnail="vm.coverFile" alt="image">
                         </div>
                         <div ngf-select ng-model="vm.coverFile" class="md-button"
                              ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"
-                             ngf-resize="{width: 300, height: 450, centerCrop: true}" required>Добавить обложку
-                        </div>
+                             ngf-resize="{width: 300, height: 450, centerCrop: true}" required>Добавить обложку</div>
                         <div ngf-select ng-model="vm.imageFile" class="md-button" ngf-pattern="'image/*'"
                              ngf-accept="'image/*'" ngf-max-size="5MB" required
-                             ngf-resize="{width: 1440, height: 540, centerCrop: true}">Добавить фон
-                        </div>
+                             ngf-resize="{width: 1440, height: 540, centerCrop: true}">Добавить фон</div>
                     </div>
                 </div>
                 <div flex-gt-sm="grow" flex-sm="auto" flex-offset-gt-sm="5">

@@ -5,6 +5,7 @@ import com.comicbooks.application.ComicbooksApp;
 import com.comicbooks.application.domain.ComicBook;
 import com.comicbooks.application.domain.Author;
 import com.comicbooks.application.repository.ComicBookRepository;
+import com.comicbooks.application.service.AuthorService;
 import com.comicbooks.application.service.ChapterService;
 import com.comicbooks.application.service.ComicBookService;
 import com.comicbooks.application.service.dto.ComicBookDTO;
@@ -99,6 +100,9 @@ public class ComicBookResourceIntTest {
     private ChapterService chapterService;
 
     @Autowired
+    private AuthorService authorService;
+
+    @Autowired
     private ComicBookQueryService comicBookQueryService;
 
     @Autowired
@@ -120,7 +124,7 @@ public class ComicBookResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ComicBookResource comicBookResource = new ComicBookResource(comicBookService, chapterService, comicBookQueryService);
+        final ComicBookResource comicBookResource = new ComicBookResource(comicBookService, authorService, chapterService, comicBookQueryService);
         this.restComicBookMockMvc = MockMvcBuilders.standaloneSetup(comicBookResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -1,60 +1,21 @@
-<div>
-    <h2 data-translate="comicbooksApp.author.home.title">Authors</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="author.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="comicbooksApp.author.home.createLabel">
-                        Create new Author
-                    </span>
-                </button>
-            </div>
+<div layout="column" layout-margin ng-cloak>
+    <div class="md-whiteframe-3dp" layout="column" layout-padding>
+        <div layout="row">
+            <div class="md-headline">Авторы</div>
+            <span flex></span>
+            <md-button has-authority="ROLE_ADMIN" ng-click="vm.showAuthorDialog($event)">Добавить автора</md-button>
         </div>
-    </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="firstName"><span data-translate="comicbooksApp.author.firstName">First Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lastName"><span data-translate="comicbooksApp.author.lastName">Last Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lastName"><span >Путь к аватару</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
-                <tr ng-repeat="author in vm.authors track by author.id">
-                    <td><a ui-sref="author-detail({id:author.id})">{{author.id}}</a></td>
-                    <td>{{author.firstName}}</td>
-                    <td>{{author.lastName}}</td>
-                    <td>{{author.avatarPath}}</td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="author-detail({id:author.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="author.edit({id:author.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="author.delete({id:author.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <md-content layout="row" layout-wrap>
+            <div ng-repeat="author in vm.authors" ng-model-options="{trackBy: '$value.id'}">
+                <div class="md-button" layout="column" layout-align="start center" layout-padding>
+                    <img class="cb-avatar" ng-init="vm.loadAvatar(author.id, author)"
+                         ng-src="{{author.image || 'content/images/no_avatar.svg'}}" alt="cover"
+                         ui-sref="author-detail({id:author.id})">
+                    <div class="md-body-2" ui-sref="author-detail({id:author.id})">
+                        {{author.firstName}} {{author.lastName}}
+                    </div>
+                </div>
+            </div>
+        </md-content>
     </div>
 </div>

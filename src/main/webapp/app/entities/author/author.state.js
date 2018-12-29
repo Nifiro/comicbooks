@@ -94,29 +94,23 @@
             data: {
                 authorities: ['ROLE_USER']
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                $uibModal.open({
+            views: {
+                'content@': {
                     templateUrl: 'app/entities/author/author-dialog.html',
                     controller: 'AuthorDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    size: 'lg',
-                    resolve: {
-                        entity: function () {
-                            return {
-                                firstName: null,
-                                lastName: null,
-                                avatarPath: null,
-                                id: null
-                            };
-                        }
-                    }
-                }).result.then(function() {
-                    $state.go('author', null, { reload: 'author' });
-                }, function() {
-                    $state.go('author');
-                });
-            }]
+                    controllerAs: 'vm'
+                }
+            },
+            resolve: {
+                entity: function () {
+                    return {
+                        firstName: null,
+                        lastName: null,
+                        avatarPath: null,
+                        id: null
+                    };
+                }
+            }
         })
         .state('author.edit', {
             parent: 'author',

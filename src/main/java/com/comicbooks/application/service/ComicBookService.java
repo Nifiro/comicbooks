@@ -3,6 +3,7 @@ package com.comicbooks.application.service;
 import com.comicbooks.application.config.StorageProperties;
 import com.comicbooks.application.domain.ComicBook;
 import com.comicbooks.application.repository.ComicBookRepository;
+import com.comicbooks.application.service.dto.AuthorDTO;
 import com.comicbooks.application.service.dto.ChapterDTO;
 import com.comicbooks.application.service.dto.ComicBookDTO;
 import com.comicbooks.application.service.mapper.ComicBookMapper;
@@ -42,12 +43,15 @@ public class ComicBookService {
 
     private final ChapterService chapterService;
 
+    private final AuthorService authorService;
+
     private final ComicBookMapper comicBookMapper;
 
     public ComicBookService(ComicBookRepository comicBookRepository, StorageProperties storageProperties,
-                            ChapterService chapterService, ComicBookMapper comicBookMapper) {
+                            ChapterService chapterService, AuthorService authorService, ComicBookMapper comicBookMapper) {
         this.comicBookRepository = comicBookRepository;
         this.chapterService = chapterService;
+        this.authorService = authorService;
         this.comicBookMapper = comicBookMapper;
         this.storageLocation = Paths.get(storageProperties.getUploadDir());
         try {
@@ -134,7 +138,7 @@ public class ComicBookService {
             while (entry != null) {
                 String name = entry.getName();
                 extension = name.substring(name.lastIndexOf('.') + 1);
-                File pageFile = new File(targetLocation.toString(), String.valueOf(page) + "." + extension);
+                File pageFile = new File(targetLocation.toString(), page + "." + extension);
                 FileOutputStream outputStream = new FileOutputStream(pageFile);
                 int len;
                 while ((len = zipInputStream.read(buffer)) > 0) {
@@ -156,15 +160,16 @@ public class ComicBookService {
         return chapterService.save(chapterDTO);
     }
 
-    public ComicBookDTO uploadComicBook(MultipartFile file, Long id, String type) throws BadRequestException, FileSystemException {
-        ComicBookDTO comicBookDTO = findOne(id);
+    public ComicBookDTO uploadImage(MultipartFile file, Long id, String type) throws BadRequestException, FileSystemException {
         String extension = "";
         int start = file.getOriginalFilename().lastIndexOf('.');
         if (start != -1)
             extension = file.getOriginalFilename().substring(start).trim();
         String fileName;
         Path targetLocation;
-        Path comicBookDir = storageLocation.resolve(comicBookDTO.getId().toString());
+        ComicBookDTO comicBookDTO = findOne(id);
+        Path comicBookDir = storageLocation.resolve(comicBookDTO.getAuthorId() + File.separator
+            + comicBookDTO.getId().toString());
         if (!Files.exists(comicBookDir)) {
             try {
                 Files.createDirectories(comicBookDir);
@@ -189,15 +194,29 @@ public class ComicBookService {
             default:
                 throw new BadRequestException("Unknown parameter: " + type);
         }
-        try {
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            byte[] bytes = file.getBytes();
-
-            Files.write(targetLocation, bytes);
-        } catch (IOException e) {
-            throw new FileSystemException("Could not store file " + fileName);
-        }
+        saveFile(file, targetLocation);
         return save(comicBookDTO);
+    }
+
+    public AuthorDTO uploadAvatar(MultipartFile file, Long id) throws FileSystemException {
+        String extension = "";
+        int start = file.getOriginalFilename().lastIndexOf('.');
+        if (start != -1)
+            extension = file.getOriginalFilename().substring(start).trim();
+        AuthorDTO authorDTO = authorService.findOne(id);
+        Path authorLocation = storageLocation.resolve(String.valueOf(id));
+        if (!Files.exists(authorLocation)) {
+            try {
+                Files.createDirectories(authorLocation);
+            } catch (IOException e) {
+                throw new FileSystemException("Could not create comic book directory: "
+                    + authorLocation.toString());
+            }
+        }
+        Path targetLocation = authorLocation.resolve(id + extension);
+        authorDTO.setAvatarPath(targetLocation.toString());
+        saveFile(file, targetLocation);
+        return authorService.save(authorDTO);
     }
 
     public Resource loadFileAsResource(String path) throws MalformedURLException {
@@ -207,5 +226,16 @@ public class ComicBookService {
             return resource;
         else
             throw new MalformedURLException("File not found: " + path);
+    }
+
+    private void saveFile(MultipartFile file, Path targetLocation) throws FileSystemException {
+        try {
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            byte[] bytes = file.getBytes();
+
+            Files.write(targetLocation, bytes);
+        } catch (IOException e) {
+            throw new FileSystemException("Could not store file " + targetLocation.toString());
+        }
     }
 }

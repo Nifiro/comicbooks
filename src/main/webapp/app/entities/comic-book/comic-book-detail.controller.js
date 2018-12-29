@@ -80,7 +80,7 @@
         }
 
         function getDate(iso) {
-            return new Date(iso).getDate() + 1;
+            return new Date(iso).getDate();
         }
 
         function getYear(iso) {

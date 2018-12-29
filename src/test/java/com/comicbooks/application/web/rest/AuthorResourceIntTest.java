@@ -5,10 +5,10 @@ import com.comicbooks.application.ComicbooksApp;
 import com.comicbooks.application.domain.Author;
 import com.comicbooks.application.repository.AuthorRepository;
 import com.comicbooks.application.service.AuthorService;
+import com.comicbooks.application.service.ComicBookService;
 import com.comicbooks.application.service.dto.AuthorDTO;
 import com.comicbooks.application.service.mapper.AuthorMapper;
 import com.comicbooks.application.web.rest.errors.ExceptionTranslator;
-import com.comicbooks.application.service.dto.AuthorCriteria;
 import com.comicbooks.application.service.AuthorQueryService;
 
 import org.junit.Before;
@@ -59,6 +59,9 @@ public class AuthorResourceIntTest {
     private AuthorService authorService;
 
     @Autowired
+    private ComicBookService comicBookService;
+
+    @Autowired
     private AuthorQueryService authorQueryService;
 
     @Autowired
@@ -80,7 +83,7 @@ public class AuthorResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AuthorResource authorResource = new AuthorResource(authorService, authorQueryService);
+        final AuthorResource authorResource = new AuthorResource(authorService, comicBookService, authorQueryService);
         this.restAuthorMockMvc = MockMvcBuilders.standaloneSetup(authorResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

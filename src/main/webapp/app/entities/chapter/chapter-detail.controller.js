@@ -15,12 +15,19 @@
         vm.chapter = entity;
         vm.previousState = previousState.name;
         vm.page = 1;
+        vm.currentPage = 1;
         vm.image = null;
+        vm.pages = [];
+
+        for(var i = 1; i <= vm.chapter.pages; i++) {
+            vm.pages.push(i)
+        }
 
         vm.nextPage = nextPage;
         vm.prevPage = prevPage;
         vm.lastPage = lastPage;
         vm.firstPage = firstPage;
+        vm.loadPage = loadPage;
 
         var unsubscribe = $rootScope.$on('comicbooksApp:chapterUpdate', function (event, result) {
             vm.chapter = result;
@@ -30,6 +37,7 @@
         loadPage();
 
         function loadPage() {
+            console.log('in loadPage. vm.page = ' + vm.page);
             $http({
                 method: 'GET',
                 url: '/api/chapter/' + vm.chapter.id + '/page/' + vm.page,

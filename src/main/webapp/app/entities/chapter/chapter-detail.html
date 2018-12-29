@@ -5,6 +5,11 @@
     <div layout="row">
         <md-button ng-click="vm.firstPage()">Первая</md-button>
         <md-button ng-click="vm.prevPage()">Пердыдущая</md-button>
+        <md-select ng-model="vm.page" ng-change="vm.loadPage()" aria-label="All Pages">
+            <md-option ng-repeat="page in vm.pages" ng-value="page">
+                {{page}} / {{vm.chapter.pages}}
+            </md-option>
+        </md-select>
         <md-button ng-click="vm.nextPage()">Следующая</md-button>
         <md-button ng-click="vm.lastPage()">Последняя</md-button>
     </div>

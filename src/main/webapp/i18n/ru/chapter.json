@@ -14,7 +14,7 @@
                 "question": "Вы уверены что хотите удалить Chapter {{ id }}?"
             },
             "detail": {
-                "title": "Chapter"
+                "title": "Глава"
             },
             "name": "Name",
             "number": "Number",

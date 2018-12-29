@@ -115,25 +115,31 @@
             function onSaveSuccess(result) {
                 $scope.author.id = result.id;
                 $scope.isSaving = false;
-                Upload.upload({
-                    url: '/api/authors/upload',
-                    data: {
-                        file: $scope.author.avatar,
-                        id: $scope.author.id
-                    }
-                }).then(function (response) {
-                    $http({
-                        method: 'GET',
-                        url: '/api/authors/' + $scope.author.id + '/avatar',
-                        responseType: 'blob'
-                    }).success(function (data, status, headers) {
-                        var contentType = headers('Content-Type');
-                        var file = new Blob([data], {type: contentType});
-                        $scope.author.image = URL.createObjectURL(file);
-                        vm.authors.push($scope.author);
-                        $scope.cancel();
+                if($scope.author.avatar) {
+                    Upload.upload({
+                        url: '/api/authors/upload',
+                        data: {
+                            file: $scope.author.avatar,
+                            id: $scope.author.id
+                        }
+                    }).then(function (response) {
+                        $http({
+                            method: 'GET',
+                            url: '/api/authors/' + $scope.author.id + '/avatar',
+                            responseType: 'blob'
+                        }).success(function (data, status, headers) {
+                            var contentType = headers('Content-Type');
+                            var file = new Blob([data], {type: contentType});
+                            $scope.author.image = URL.createObjectURL(file);
+                            vm.authors.push($scope.author);
+                            $scope.cancel();
+                        });
                     });
-                });
+                }
+                else {
+                    vm.authors.push($scope.author);
+                    $scope.cancel();
+                }
             }
         }
     }

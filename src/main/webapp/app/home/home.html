@@ -1,0 +1,10 @@
+<div layout="column" layout-margin ng-cloak>
+    <div class="md-whiteframe-3dp" layout-padding>
+        <div class="md-headline">Последние обновления</div>
+        <md-content layout="row" layout-wrap>
+            <div ng-repeat="comicBook in vm.comicBooks" ng-model-options="{trackBy: '$value.id'}">
+
+            </div>
+        </md-content>
+    </div>
+</div>

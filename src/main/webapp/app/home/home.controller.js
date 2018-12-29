@@ -1,32 +1,44 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('comicbooksApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$http', 'Principal', 'LoginService', '$state'];
+    HomeController.$inject = ['$scope', '$http', 'Principal', 'LoginService', '$state', 'paginationConstants',
+        'ParseLinks'];
 
-    function HomeController ($scope, $http, Principal, LoginService, $state) {
+    function HomeController($scope, $http, Principal, LoginService, $state, paginationConstants, ParseLinks) {
         var vm = this;
 
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
         vm.register = register;
-        $scope.$on('authenticationSuccess', function() {
+        $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
+        vm.loadImage = loadImage;
+        vm.getAuthor = getAuthor;
+        vm.itemsPerPage = paginationConstants.itemsPerPage;
+        vm.page = 1;
+        vm.links = {
+            last: 0
+        };
+        vm.predicate = 'id';
+        vm.reverse = true;
+        vm.comicBooks = [];
 
         getAccount();
 
         function getAccount() {
-            Principal.identity().then(function(account) {
+            Principal.identity().then(function (account) {
                 vm.account = account;
                 vm.isAuthenticated = Principal.isAuthenticated;
             });
         }
-        function register () {
+
+        function register() {
             $state.go('register');
         }
 
@@ -50,6 +62,30 @@
                 comicBook.firstName = result.firstName;
                 comicBook.lastName = result.lastName
             });
+        }
+
+        function loadAll() {
+            ComicBook.query({
+                page: vm.page,
+                size: vm.itemsPerPage,
+                sort: sort()
+            }, onSuccess);
+
+            function sort() {
+                var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
+                if (vm.predicate !== 'id') {
+                    result.push('id');
+                }
+                return result;
+            }
+
+            function onSuccess(data, headers) {
+                vm.links = ParseLinks.parse(headers('link'));
+                vm.totalItems = headers('X-Total-Count');
+                for (var i = 0; i < data.length; i++) {
+                    vm.comicBooks.push(data[i]);
+                }
+            }
         }
     }
 })();

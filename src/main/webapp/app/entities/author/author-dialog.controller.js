@@ -40,7 +40,5 @@
         function onSaveError () {
             vm.isSaving = false;
         }
-
-
     }
 })();

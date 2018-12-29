@@ -76,7 +76,6 @@
 
         function loadAvatar(id, author) {
             if (author.avatarPath !== null) {
-                console.log(author);
                 $http({
                     method: 'GET',
                     url: '/api/authors/' + id + '/avatar',
@@ -123,8 +122,17 @@
                         id: $scope.author.id
                     }
                 }).then(function (response) {
-                    vm.authors.push($scope.author);
-                    $scope.cancel();
+                    $http({
+                        method: 'GET',
+                        url: '/api/authors/' + $scope.author.id + '/avatar',
+                        responseType: 'blob'
+                    }).success(function (data, status, headers) {
+                        var contentType = headers('Content-Type');
+                        var file = new Blob([data], {type: contentType});
+                        $scope.author.image = URL.createObjectURL(file);
+                        vm.authors.push($scope.author);
+                        $scope.cancel();
+                    });
                 });
             }
         }

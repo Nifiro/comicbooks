@@ -37,7 +37,6 @@
         loadPage();
 
         function loadPage() {
-            console.log('in loadPage. vm.page = ' + vm.page);
             $http({
                 method: 'GET',
                 url: '/api/chapter/' + vm.chapter.id + '/page/' + vm.page,

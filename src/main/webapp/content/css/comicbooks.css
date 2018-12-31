@@ -89,3 +89,21 @@
     -o-transform: translate(100%, -50%);
     transform: translate(100%, -50%);
 }
+
+.cb-all-pages {
+    position: fixed;
+    bottom: 100%;
+    right: 100%;
+    transform: translate(120%, 220%);
+}
+
+.cb-current-page {
+    position: fixed;
+    top: 100%;
+    left: 100%;
+    -webkit-transform: translate(-100%, -100%);
+    -moz-transform: translate(-100%, -100%);
+    -ms-transform: translate(-100%, -100%);
+    -o-transform: translate(-100%, -100%);
+    transform: translate(-100%, -100%);
+}

@@ -1,7 +1,7 @@
 <div layout="column" ng-cloak>
     <img class="cb-background" ng-init="vm.loadImage(vm.comicBook.id, 'background', vm.comicBook)"
          alt="background" ng-src="{{vm.comicBook.image}}">
-    <div class="md-whiteframe-1dp" layout="column">
+    <div md-whiteframe="1" layout="column">
         <div layout="row" layout-padding>
             <div class="cb-detail-cover" md-whiteframe="-1">
                 <img ng-init="vm.loadImage(vm.comicBook.id, 'cover', vm.comicBook)"
@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <div class="md-whiteframe-1dp cb-chapters" layout="column" layout-padding>
+    <div md-whiteframe="1" class="cb-chapters" layout="column" layout-padding>
         <div layout="row">
             <div class="md-headline">Главы</div>
             <span flex></span>

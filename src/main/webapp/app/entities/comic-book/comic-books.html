@@ -10,7 +10,7 @@
                 <div flex="none" class="md-button comic-book" layout="column" layout-align="start start">
                     <img class="cb-cover" ng-init="vm.loadImage(comicBook.id, 'cover', comicBook)"
                          ng-src="{{comicBook.image}}" alt="cover" ui-sref="comic-book-detail({id:comicBook.id})">
-                    <div class="md-body-2" ui-sref="comic-book-detail({id:comicBook.id})">
+                    <div class="md-body-2 cb-wrap-break-word" ui-sref="comic-book-detail({id:comicBook.id})">
                         {{comicBook.title}}
                     </div>
                     <div class="md-body-1" ng-init="vm.getAuthor(comicBook.authorId, comicBook)"

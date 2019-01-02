@@ -1,5 +1,5 @@
 <div layout="column" layout-align="start center">
-    <img ng-src="{{vm.image}}" alt="page">
+    <img ng-src="{{vm.image}}" ng-click="vm.nextPage()" style="outline: none" alt="page">
     <div class="md-raised md-button cb-right" ng-click="vm.nextPage()">След.</div>
     <div class="md-raised md-button cb-left" ng-click="vm.prevPage()">Пред.</div>
     <div class="md-raised md-button cb-current-page">{{vm.page}} / {{vm.chapter.pages}}</div>

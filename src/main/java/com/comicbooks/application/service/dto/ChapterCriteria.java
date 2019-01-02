@@ -48,6 +48,8 @@ public class ChapterCriteria implements Serializable {
 
     private InstantFilter lastModifiedDate;
 
+    private LongFilter comicBookId;
+
     public ChapterCriteria() {
     }
 
@@ -57,6 +59,14 @@ public class ChapterCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public LongFilter getComicBookId() {
+        return comicBookId;
+    }
+
+    public void setComicBookId(LongFilter comicBookId) {
+        this.comicBookId = comicBookId;
     }
 
     public StringFilter getName() {
@@ -153,6 +163,7 @@ public class ChapterCriteria implements Serializable {
                 (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
                 (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
                 (lastModifiedDate != null ? "lastModifiedDate=" + lastModifiedDate + ", " : "") +
+                (comicBookId != null ? "comicBookId=" + comicBookId + ", " : "") +
             "}";
     }
 

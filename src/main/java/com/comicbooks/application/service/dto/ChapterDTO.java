@@ -35,6 +35,8 @@ public class ChapterDTO implements Serializable {
 
     private Instant lastModifiedDate;
 
+    private Long comicBookId;
+
     public Long getId() {
         return id;
     }
@@ -123,6 +125,15 @@ public class ChapterDTO implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    public Long getComicBookId() {
+        return comicBookId;
+    }
+
+    public void setComicBookId(Long comicBookId) {
+        this.comicBookId = comicBookId;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -158,6 +169,7 @@ public class ChapterDTO implements Serializable {
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
             ", lastModifiedDate='" + getLastModifiedDate() + "'" +
+            ", comicBookId='" + getComicBookId() + "'" +
             "}";
     }
 }

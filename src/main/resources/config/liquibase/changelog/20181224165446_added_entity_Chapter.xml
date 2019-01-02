@@ -61,8 +61,19 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="comic_book_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="comic_book_id"
+                                 baseTableName="chapter"
+                                 constraintName="fk_chapter_comic_book_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="comic_book"/>
+
         <dropDefaultValue tableName="chapter" columnName="release_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="chapter" columnName="created_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="chapter" columnName="last_modified_date" columnDataType="datetime"/>

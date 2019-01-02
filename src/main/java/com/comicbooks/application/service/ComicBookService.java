@@ -110,11 +110,11 @@ public class ComicBookService {
         comicBookRepository.delete(id);
     }
 
-    public ChapterDTO uploadChapter(MultipartFile file, Long id, Long chapterId) throws FileSystemException {
-        ComicBookDTO comicBookDTO = findOne(id);
+    public ChapterDTO uploadChapter(MultipartFile file, Long comicBookId, Long chapterId) throws FileSystemException {
+        ComicBookDTO comicBookDTO = findOne(comicBookId);
         ChapterDTO chapterDTO = chapterService.findOne(chapterId);
-        Path comicBookDir = storageLocation.resolve(comicBookDTO.getId().toString());
-        Path targetLocation = comicBookDir.resolve(chapterId.toString());
+        Path authorDir = storageLocation.resolve(comicBookDTO.getAuthorId().toString());
+        Path targetLocation = authorDir.resolve(comicBookId.toString()).resolve(chapterId.toString());
         if (!Files.exists(targetLocation)) {
             try {
                 Files.createDirectories(targetLocation);

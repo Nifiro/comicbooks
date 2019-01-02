@@ -67,6 +67,9 @@ public class Chapter implements Serializable {
     @LastModifiedDate
     private Instant lastModifiedDate;
 
+    @OneToOne
+    private ComicBook comicBook;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -206,6 +209,19 @@ public class Chapter implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    public ComicBook getComicBook() {
+        return comicBook;
+    }
+
+    public Chapter comicBook(ComicBook comicBook) {
+        this.comicBook = comicBook;
+        return this;
+    }
+
+    public void setComicBook(ComicBook comicBook) {
+        this.comicBook = comicBook;
+    }
 
     @Override
     public boolean equals(Object o) {

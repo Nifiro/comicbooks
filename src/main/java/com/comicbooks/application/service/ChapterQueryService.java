@@ -108,6 +108,9 @@ public class ChapterQueryService extends QueryService<Chapter> {
             if (criteria.getLastModifiedDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Chapter_.lastModifiedDate));
             }
+            if (criteria.getComicBookId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getComicBookId(), Chapter_.comicBook, ComicBook_.id));
+            }
         }
         return specification;
     }

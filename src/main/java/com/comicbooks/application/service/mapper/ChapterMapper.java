@@ -11,7 +11,11 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {})
 public interface ChapterMapper extends EntityMapper<ChapterDTO, Chapter> {
 
+    @Mapping(source = "comicBookId", target = "comicBook.id")
+    Chapter toEntity(ChapterDTO chapterDTO);
 
+    @Mapping(source = "comicBook.id", target = "comicBookId")
+    ChapterDTO toDto(Chapter chapter);
 
     default Chapter fromId(Long id) {
         if (id == null) {

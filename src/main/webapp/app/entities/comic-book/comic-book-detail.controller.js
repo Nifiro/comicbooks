@@ -45,6 +45,11 @@
         }
 
         function loadChapters() {
+            $http.get('/api/chapters?comicBookId.equals=' + vm.comicBook.id).success(function (response) {
+                for(var i = 0; i < response.length; i++)
+                    vm.chapters.push(response[i]);
+            })
+/*
             $http.get('/api/series?comicBookId.equals=' + vm.comicBook.id).success(function (response) {
                 response.forEach(function (series) {
                     $http.get('/api/chapters?id.equals=' + series.chapterId).success(function (chapter) {
@@ -52,6 +57,7 @@
                     })
                 })
             });
+*/
         }
 
         function loadImage(id, type, comicBook) {
@@ -111,7 +117,8 @@
                 filePath: null,
                 pages: null,
                 releaseDate: null,
-                id: null
+                id: null,
+                comicBookId: vm.comicBook.id
             };
 
             $scope.cancel = function () {
@@ -130,11 +137,6 @@
             function onSaveSuccess(result) {
                 $scope.chapter.id = result.id;
                 $scope.isSaving = false;
-                var series = {
-                    comicBookId: vm.comicBook.id,
-                    chapterId: result.id
-                };
-                Series.save(series);
                 Upload.upload({
                     url: '/api/comic-books/' + vm.comicBook.id + '/chapter',
                     data: {

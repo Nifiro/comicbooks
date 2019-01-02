@@ -114,7 +114,8 @@
                         createdDate: null,
                         lastModifiedBy: null,
                         lastModifiedDate: null,
-                        id: null
+                        id: null,
+                        comicBookId: null
                     };
                 }
             }

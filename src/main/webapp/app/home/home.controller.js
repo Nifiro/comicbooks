@@ -6,9 +6,10 @@
         .controller('HomeController', HomeController);
 
     HomeController.$inject = ['$scope', '$http', 'Principal', 'LoginService', '$state', 'paginationConstants',
-        'ParseLinks'];
+        'ParseLinks', 'ComicBook'];
 
-    function HomeController($scope, $http, Principal, LoginService, $state, paginationConstants, ParseLinks) {
+    function HomeController($scope, $http, Principal, LoginService, $state, paginationConstants,
+                            ParseLinks, ComicBook) {
         var vm = this;
 
         vm.account = null;

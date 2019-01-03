@@ -5,9 +5,9 @@
         .module('comicbooksApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$rootScope', '$state', '$timeout', 'Auth', '$uibModalInstance'];
+    LoginController.$inject = ['$rootScope', '$state', '$timeout', 'Auth', 'LoginService'];
 
-    function LoginController ($rootScope, $state, $timeout, Auth, $uibModalInstance) {
+    function LoginController ($rootScope, $state, $timeout, Auth, LoginService) {
         var vm = this;
 
         vm.authenticationError = false;
@@ -29,18 +29,19 @@
                 rememberMe: true
             };
             vm.authenticationError = false;
-            $uibModalInstance.dismiss('cancel');
+
+            LoginService.close();
         }
 
         function login (event) {
-            event.preventDefault();
+            // event.preventDefault();
             Auth.login({
                 username: vm.username,
                 password: vm.password,
                 rememberMe: vm.rememberMe
             }).then(function () {
                 vm.authenticationError = false;
-                $uibModalInstance.close();
+                LoginService.close();
                 if ($state.current.name === 'register' || $state.current.name === 'activate' ||
                     $state.current.name === 'finishReset' || $state.current.name === 'requestReset') {
                     $state.go('home');
@@ -61,12 +62,12 @@
         }
 
         function register () {
-            $uibModalInstance.dismiss('cancel');
+            LoginService.close();
             $state.go('register');
         }
 
         function requestResetPassword () {
-            $uibModalInstance.dismiss('cancel');
+            LoginService.close();
             $state.go('requestReset');
         }
     }

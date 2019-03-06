@@ -49,15 +49,6 @@
                 for(var i = 0; i < response.length; i++)
                     vm.chapters.push(response[i]);
             })
-/*
-            $http.get('/api/series?comicBookId.equals=' + vm.comicBook.id).success(function (response) {
-                response.forEach(function (series) {
-                    $http.get('/api/chapters?id.equals=' + series.chapterId).success(function (chapter) {
-                        vm.chapters.push(chapter[0]);
-                    })
-                })
-            });
-*/
         }
 
         function loadImage(id, type, comicBook) {

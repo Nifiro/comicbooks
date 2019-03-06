@@ -6,31 +6,35 @@
         .controller('HomeController', HomeController);
 
     HomeController.$inject = ['$scope', '$http', 'Principal', 'LoginService', '$state', 'paginationConstants',
-        'ParseLinks', 'ComicBook'];
+        'ParseLinks', 'Chapter'];
 
     function HomeController($scope, $http, Principal, LoginService, $state, paginationConstants,
-                            ParseLinks, ComicBook) {
+                            ParseLinks, Chapter) {
         var vm = this;
 
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
         vm.register = register;
+        vm.loadImage = loadImage;
+        vm.getMonth = getMonth;
+        vm.getYear = getYear;
+        vm.getDate = getDate;
+        vm.getTitle = getTitle;
         $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
-        vm.loadImage = loadImage;
-        vm.getAuthor = getAuthor;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
-        vm.page = 1;
+        vm.page = 0;
         vm.links = {
             last: 0
         };
         vm.predicate = 'id';
         vm.reverse = true;
-        vm.comicBooks = [];
+        vm.chapters = [];
 
         getAccount();
+        loadAll();
 
         function getAccount() {
             Principal.identity().then(function (account) {
@@ -55,21 +59,15 @@
             });
         }
 
-        function getAuthor(id, comicBook) {
-            $http({
-                method: 'GET',
-                url: '/api/authors/' + id
-            }).success(function (result) {
-                comicBook.firstName = result.firstName;
-                comicBook.lastName = result.lastName
-            });
-        }
-
         function loadAll() {
-            ComicBook.query({
+            var oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+            Chapter.query({
                 page: vm.page,
                 size: vm.itemsPerPage,
-                sort: sort()
+                sort: sort(),
+                'createdDate.greaterThen': oneWeekAgo.toISOString()
             }, onSuccess);
 
             function sort() {
@@ -84,9 +82,27 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 for (var i = 0; i < data.length; i++) {
-                    vm.comicBooks.push(data[i]);
+                    vm.chapters.push(data[i]);
                 }
             }
+        }
+
+        function getDate(iso) {
+            return new Date(iso).getDate();
+        }
+
+        function getYear(iso) {
+            return new Date(iso).getFullYear();
+        }
+
+        function getMonth(iso) {
+            return new Date(iso).getMonth() + 1;
+        }
+
+        function getTitle(chapter) {
+            $http.get('/api/comic-books/' + chapter.comicBookId).success(function (result) {
+                chapter.title = result.title;
+            })
         }
     }
 })();

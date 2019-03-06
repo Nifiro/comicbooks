@@ -1,9 +1,21 @@
 <div layout="column" layout-margin ng-cloak>
     <div class="md-whiteframe-3dp" layout-padding>
         <div class="md-headline">Последние обновления</div>
-        <md-content layout="row" layout-wrap>
-            <div ng-repeat="comicBook in vm.comicBooks" ng-model-options="{trackBy: '$value.id'}">
-
+        <md-content layout="column">
+            <div class="md-button" ng-repeat="chapter in vm.chapters" layout="row" layout-padding>
+                <img class="cb-cover-home" ng-init="vm.loadImage(chapter.comicBookId, 'cover', chapter)"
+                     ng-src="{{chapter.image}}" alt="cover">
+                <span class="cb-url" ng-init="vm.getTitle(chapter)"
+                      ui-sref="comic-book-detail({id: chapter.comicBookId})">
+                    {{chapter.title}}
+                </span>
+                <span flex></span>
+                <span class="cb-url" ui-sref="chapter-detail({id: chapter.id})">
+                    <span style="padding-right: 0;" ng-if="chapter.volume">Том {{chapter.volume}}.&nbsp</span>
+                    <span style="padding-left: 0;">Глава {{chapter.number}}: {{chapter.name}}</span>
+                </span>
+                <span flex></span>
+                <span>{{vm.getMonth(chapter.createdDate)}}/{{vm.getDate(chapter.createdDate)}}/{{vm.getYear(chapter.createdDate)}}</span>
             </div>
         </md-content>
     </div>

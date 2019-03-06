@@ -9,7 +9,8 @@
             </div>
             <div layout="column">
                 <div class="md-display-1 cb-title"><b>{{vm.comicBook.title}}</b></div>
-                <div class="cb-regular-16 cb-clickable" ng-init="vm.getAuthor(vm.comicBook.authorId, vm.comicBook)"
+                <div class="cb-regular-16 cb-clickable cb-url"
+                     ng-init="vm.getAuthor(vm.comicBook.authorId, vm.comicBook)"
                      ui-sref="author-detail({id:vm.comicBook.authorId})">
                     {{vm.comicBook.firstName}} {{vm.comicBook.lastName}}
                 </div>

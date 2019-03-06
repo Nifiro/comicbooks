@@ -14,6 +14,7 @@
         vm.authors = [];
         vm.loadPage = loadPage;
         vm.loadAvatar = loadAvatar;
+        vm.loadAll = loadAll;
         vm.showAuthorDialog = showAuthorDialog;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.page = 0;
@@ -23,10 +24,13 @@
         vm.predicate = 'id';
         vm.reset = reset;
         vm.reverse = true;
-
-        loadAll();
+        vm.maxPage = Number.POSITIVE_INFINITY;
+        vm.busy = false;
 
         function loadAll() {
+            if (vm.busy) return;
+            vm.busy = true;
+
             Author.query({
                 page: vm.page,
                 size: vm.itemsPerPage,
@@ -44,9 +48,12 @@
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
+                vm.maxPage = vm.totalItems / vm.itemsPerPage;
                 for (var i = 0; i < data.length; i++) {
                     vm.authors.push(data[i]);
                 }
+                vm.page++;
+                vm.busy = false;
             }
 
             function onError(error) {

@@ -25,6 +25,19 @@
     align-self: center;
 }
 
+.cb-cover-home {
+    height: 150px;
+}
+
+.cb-padding-10 {
+    padding: 10px;
+}
+
+.cb-url:hover {
+    color: #28a4c9;
+    text-decoration: underline;
+}
+
 .comic-book {
     width: 190px;
     padding-top: 10px;

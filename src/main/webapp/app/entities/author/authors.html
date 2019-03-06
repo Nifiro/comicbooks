@@ -5,7 +5,8 @@
             <span flex></span>
             <md-button has-authority="ROLE_ADMIN" ng-click="vm.showAuthorDialog($event)">Добавить автора</md-button>
         </div>
-        <md-content layout="row" layout-wrap>
+        <md-content layout="row" infinite-scroll-disabled="vm.busy || vm.page > vm.maxPage"
+                    infinite-scroll="vm.loadAll()" infinite-scroll-distance="1" layout-wrap>
             <div ng-repeat="author in vm.authors" ng-model-options="{trackBy: '$value.id'}">
                 <div class="md-button" layout="column" layout-align="start center" layout-padding>
                     <img class="cb-avatar" ng-init="vm.loadAvatar(author.id, author)"

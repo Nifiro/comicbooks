@@ -2,7 +2,7 @@
     <md-button ui-sref="home">Главная</md-button>
     <md-button ui-sref="comic-book">Все комиксы</md-button>
     <md-button ui-sref="author">Авторы</md-button>
-    <md-button has-authority="ROLE_ADMIN" ng-show="vm.swaggerEnabled" ui-sref="docs">API</md-button>
+    <!--<md-button has-authority="ROLE_ADMIN" ng-show="vm.swaggerEnabled" ui-sref="docs">API</md-button>-->
     <span flex></span>
     <md-button class="md-raised" ng-if="!vm.isAuthenticated()" ng-click="vm.login()">Вход</md-button>
     <md-button class="md-raised" ng-if="!vm.isAuthenticated()" ui-sref="register">Регистрация</md-button>

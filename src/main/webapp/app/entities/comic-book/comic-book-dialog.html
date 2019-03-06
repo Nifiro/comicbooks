@@ -13,7 +13,9 @@
                              ngf-resize="{width: 300, height: 450, centerCrop: true}" required>Добавить обложку</div>
                         <div ngf-select ng-model="vm.imageFile" class="md-button" ngf-pattern="'image/*'"
                              ngf-accept="'image/*'" ngf-max-size="5MB" required
-                             ngf-resize="{width: 1440, height: 540, centerCrop: true}">Добавить фон</div>
+                             ngf-resize="{width: 1440, height: 540, centerCrop: true}">Добавить фон
+                            <img ng-show="vm.imageFile" src="/content/images/attachment.svg">
+                        </div>
                     </div>
                 </div>
                 <div flex-gt-sm="grow" flex-sm="auto" flex-offset-gt-sm="5">

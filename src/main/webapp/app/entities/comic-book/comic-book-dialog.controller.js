@@ -19,7 +19,7 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.authors = Author.query();
-        vm.genres = Genre.query();
+        vm.genres = Genre.query({sort: 'name'});
         vm.selectedAuthor = null;
         vm.selectedStatus = null;
         vm.selectedGenres = null;

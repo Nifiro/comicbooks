@@ -17,6 +17,7 @@
         vm.loadPage = loadPage;
         vm.loadImage = loadImage;
         vm.getAuthor = getAuthor;
+        vm.loadAll = loadAll;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.page = 0;
         vm.links = {
@@ -27,10 +28,13 @@
         vm.reverse = true;
         vm.openFile = DataUtils.openFile;
         vm.byteSize = DataUtils.byteSize;
-
-        loadAll();
+        vm.maxPage = Number.POSITIVE_INFINITY;
+        vm.busy = false;
 
         function loadAll() {
+            if (vm.busy) return;
+            vm.busy = true;
+
             ComicBook.query({
                 page: vm.page,
                 size: vm.itemsPerPage,
@@ -48,9 +52,12 @@
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
+                vm.maxPage = vm.totalItems / vm.itemsPerPage;
                 for (var i = 0; i < data.length; i++) {
                     vm.comicBooks.push(data[i]);
                 }
+                vm.page++;
+                vm.busy = false;
             }
 
             function onError(error) {

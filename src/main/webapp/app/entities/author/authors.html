@@ -1,0 +1,22 @@
+<div layout="column" layout-margin ng-cloak>
+    <div class="md-whiteframe-3dp" layout="column" layout-padding>
+        <div layout="row">
+            <div class="md-headline">Авторы</div>
+            <span flex></span>
+            <md-button has-authority="ROLE_ADMIN" ng-click="vm.showAuthorDialog($event)">Добавить автора</md-button>
+        </div>
+        <md-content layout="row" infinite-scroll-disabled="vm.busy || vm.page > vm.maxPage"
+                    infinite-scroll="vm.loadAll()" infinite-scroll-distance="1" layout-wrap>
+            <div ng-repeat="author in vm.authors" ng-model-options="{trackBy: '$value.id'}">
+                <div class="md-button" layout="column" layout-align="start center" layout-padding>
+                    <img class="cb-avatar" ng-init="vm.loadAvatar(author.id, author)"
+                         ng-src="{{author.image || 'content/images/no_avatar.svg'}}" alt="cover"
+                         ui-sref="author-detail({id:author.id})">
+                    <div class="md-body-2" ui-sref="author-detail({id:author.id})">
+                        {{author.firstName}} {{author.lastName}}
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
+</div>

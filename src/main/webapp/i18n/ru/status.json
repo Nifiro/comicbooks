@@ -1,0 +1,9 @@
+{
+    "comicbooksApp": {
+        "Status" : {
+            "null": "",
+            "ONGOING": "ONGOING",
+            "COMPLETED": "COMPLETED"
+        }
+    }
+}

@@ -1,0 +1,61 @@
+<md-dialog flex="60">
+    <form name="chapterForm" role="form">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Добавить главу</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="content/images/close.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="column">
+                <md-input-container flex class="md-block">
+                    <label>Заголовок</label>
+                    <input type="text" name="title" ng-model="chapter.name" required>
+                    <div ng-messages="chapterForm.title.$error">
+                        <div ng-message="required">Это поле обязательно к заполнению.</div>
+                    </div>
+                </md-input-container>
+
+                <div layout="row">
+                    <md-input-container flex class="md-block">
+                        <label>Том</label>
+                        <input type="number" name="volume" ng-model="chapter.volume">
+                    </md-input-container>
+
+                    <md-input-container flex class="md-block">
+                        <label>Глава</label>
+                        <input type="number" name="chapter" ng-model="chapter.number" required>
+                        <div ng-messages="chapterForm.chapter.$error">
+                            <div ng-message="required">Это поле обязательно к заполнению.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout="row">
+                    <md-input-container flex class="md-block">
+                        <label>Количество страниц</label>
+                        <input type="number" name="pages" ng-model="chapter.pages" required>
+                        <div ng-messages="chapterForm.pages.$error">
+                            <div ng-message="required">Это поле обязательно к заполнению.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex class="md-block">
+                        <label>Дата релиза</label>
+                        <input type="date" name="releaseDate" ng-model="chapter.releaseDate">
+                    </md-input-container>
+                </div>
+                <div ngf-select ng-model="chapter.comicFile" class="md-button" ngf-pattern="'.cbz'"
+                     ngf-accept="'.cbz'" required>Добавить комикс</div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">Отмена</md-button>
+            <md-button ng-disabled="!chapterForm.$valid" ng-click="save()">Добавить</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

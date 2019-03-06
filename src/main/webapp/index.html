@@ -13,13 +13,14 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="bower_components/roboto-fontface/css/roboto/roboto-fontface.css">
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
     <!-- endinject -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
+    <link rel="stylesheet" href="content/css/comicbooks.css">
     <!-- endbuild -->
-    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webapp" />
 </head>
@@ -28,10 +29,8 @@
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div ui-view="navbar" ng-cloak></div>
-    <div class="container">
-        <div class="well" ui-view="content">
-            <!-- Angular views -->
-        </div>
+    <div ui-view="content">
+        <!-- Angular views -->
     </div>
     <noscript>
         <h1>You must enable javascript to view this page.</h1>
@@ -106,7 +105,49 @@
     <script src="app/layouts/error/error.state.js"></script>
     <script src="app/home/home.state.js"></script>
     <script src="app/home/home.controller.js"></script>
+    <script src="app/entities/series/series-dialog.controller.js"></script>
+    <script src="app/entities/series/series-detail.controller.js"></script>
+    <script src="app/entities/series/series-delete-dialog.controller.js"></script>
+    <script src="app/entities/series/series.state.js"></script>
+    <script src="app/entities/series/series.service.js"></script>
+    <script src="app/entities/series/series.controller.js"></script>
+    <script src="app/entities/profile/profile-dialog.controller.js"></script>
+    <script src="app/entities/profile/profile-detail.controller.js"></script>
+    <script src="app/entities/profile/profile-delete-dialog.controller.js"></script>
+    <script src="app/entities/profile/profile.state.js"></script>
+    <script src="app/entities/profile/profile.service.js"></script>
+    <script src="app/entities/profile/profile.controller.js"></script>
+    <script src="app/entities/genre/genre-dialog.controller.js"></script>
+    <script src="app/entities/genre/genre-detail.controller.js"></script>
+    <script src="app/entities/genre/genre-delete-dialog.controller.js"></script>
+    <script src="app/entities/genre/genre.state.js"></script>
+    <script src="app/entities/genre/genre.service.js"></script>
+    <script src="app/entities/genre/genre.controller.js"></script>
     <script src="app/entities/entity.state.js"></script>
+    <script src="app/entities/comic-book-genres/comic-book-genres-dialog.controller.js"></script>
+    <script src="app/entities/comic-book-genres/comic-book-genres-detail.controller.js"></script>
+    <script src="app/entities/comic-book-genres/comic-book-genres-delete-dialog.controller.js"></script>
+    <script src="app/entities/comic-book-genres/comic-book-genres.state.js"></script>
+    <script src="app/entities/comic-book-genres/comic-book-genres.service.js"></script>
+    <script src="app/entities/comic-book-genres/comic-book-genres.controller.js"></script>
+    <script src="app/entities/comic-book/comic-book-dialog.controller.js"></script>
+    <script src="app/entities/comic-book/comic-book-detail.controller.js"></script>
+    <script src="app/entities/comic-book/comic-book-delete-dialog.controller.js"></script>
+    <script src="app/entities/comic-book/comic-book.state.js"></script>
+    <script src="app/entities/comic-book/comic-book.service.js"></script>
+    <script src="app/entities/comic-book/comic-book.controller.js"></script>
+    <script src="app/entities/chapter/chapter-dialog.controller.js"></script>
+    <script src="app/entities/chapter/chapter-detail.controller.js"></script>
+    <script src="app/entities/chapter/chapter-delete-dialog.controller.js"></script>
+    <script src="app/entities/chapter/chapter.state.js"></script>
+    <script src="app/entities/chapter/chapter.service.js"></script>
+    <script src="app/entities/chapter/chapter.controller.js"></script>
+    <script src="app/entities/author/author-dialog.controller.js"></script>
+    <script src="app/entities/author/author-detail.controller.js"></script>
+    <script src="app/entities/author/author-delete-dialog.controller.js"></script>
+    <script src="app/entities/author/author.state.js"></script>
+    <script src="app/entities/author/author.service.js"></script>
+    <script src="app/entities/author/author.controller.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>
     <script src="app/components/util/sort-by.directive.js"></script>

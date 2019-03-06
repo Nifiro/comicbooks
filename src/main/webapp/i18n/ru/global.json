@@ -1,12 +1,19 @@
 {
     "global": {
-        "title": "Comicbooks",
+        "title": "Комиксы",
         "browsehappy": "Ваш браузер <strong>устарел</strong>. Пожалуйста <a href=\"http://browsehappy.com/?locale=ru\">обновите ваш браузер</a>.",
         "menu": {
             "home": "Главная",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Сущности",
+                "comicBook": "Комиксы",
+                "chapter": "Главы",
+                "author": "Авторы",
+                "genre": "Жанр",
+                "comicBookGenres": "Жарны комиксов",
+                "series": "Серии комиксов",
+                "profile": "Профиль",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

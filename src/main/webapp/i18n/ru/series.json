@@ -1,0 +1,23 @@
+
+{
+    "comicbooksApp": {
+        "series" : {
+            "home": {
+                "title": "Series",
+                "createLabel": "Создать новый Series",
+                "createOrEditLabel": "Создать или отредактировать Series"
+            },
+            "created": "Новый Series создан с идентификатором {{ param }}",
+            "updated": "Series обновлен с идентификатором {{ param }}",
+            "deleted": "Series удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Series {{ id }}?"
+            },
+            "detail": {
+                "title": "Series"
+            },
+            "comicBook": "Comic Book",
+            "chapter": "Chapter"
+        }
+    }
+}

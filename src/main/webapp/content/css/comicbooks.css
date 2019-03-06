@@ -1,0 +1,115 @@
+.cb-add-cover {
+    width: 300px;
+    height: 450px;
+    border: 1px outset grey;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.cb-add-avatar {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+}
+
+.cb-avatar {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    width: 183px;
+    height: 183px;
+}
+
+.cb-cover {
+    height: 250px;
+    align-self: center;
+}
+
+.cb-cover-home {
+    height: 150px;
+}
+
+.cb-padding-10 {
+    padding: 10px;
+}
+
+.cb-url:hover {
+    color: #28a4c9;
+    text-decoration: underline;
+}
+
+.comic-book {
+    width: 190px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.cb-background {
+    width: 100%;
+    height: auto;
+}
+
+.cb-detail-cover {
+    margin-top: -200px;
+    background-color: white;
+    padding: 20px;
+}
+
+.cb-regular-16 {
+    font-size: 16px;
+}
+
+.cb-clickable {
+    cursor: pointer;
+}
+
+.cb-title {
+    margin-bottom: 20px;
+}
+
+.cb-wrap-break-word {
+    word-break: break-word;
+}
+
+.cb-hor-margins {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.cb-chapters {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.cb-right {
+    position: fixed;
+    top: 50%;
+    left: 100%;
+    -webkit-transform: translate(-100%, -50%);
+    -moz-transform: translate(-100%, -50%);
+    -ms-transform: translate(-100%, -50%);
+    -o-transform: translate(-100%, -50%);
+    transform: translate(-100%, -50%);
+}
+
+.cb-left {
+    position: fixed;
+    top: 50%;
+    right: 100%;
+    -webkit-transform: translate(100%, -50%);
+    -moz-transform: translate(100%, -50%);
+    -ms-transform: translate(100%, -50%);
+    -o-transform: translate(100%, -50%);
+    transform: translate(100%, -50%);
+}
+
+.cb-current-page {
+    position: fixed;
+    top: 100%;
+    left: 100%;
+    -webkit-transform: translate(-100%, -100%);
+    -moz-transform: translate(-100%, -100%);
+    -ms-transform: translate(-100%, -100%);
+    -o-transform: translate(-100%, -100%);
+    transform: translate(-100%, -100%);
+}

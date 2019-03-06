@@ -3,6 +3,7 @@ package com.comicbooks.application;
 import com.comicbooks.application.config.ApplicationProperties;
 import com.comicbooks.application.config.DefaultProfileUtil;
 
+import com.comicbooks.application.config.StorageProperties;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class, StorageProperties.class})
 public class ComicbooksApp {
 
     private static final Logger log = LoggerFactory.getLogger(ComicbooksApp.class);

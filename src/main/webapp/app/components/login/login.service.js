@@ -5,11 +5,12 @@
         .module('comicbooksApp')
         .factory('LoginService', LoginService);
 
-    LoginService.$inject = ['$uibModal'];
+    LoginService.$inject = ['$mdDialog'];
 
-    function LoginService ($uibModal) {
+    function LoginService ($mdDialog) {
         var service = {
-            open: open
+            open: open,
+            close: close
         };
 
         var modalInstance = null;
@@ -20,12 +21,11 @@
         return service;
 
         function open () {
-            if (modalInstance !== null) return;
-            modalInstance = $uibModal.open({
-                animation: true,
+            modalInstance = $mdDialog.show({
                 templateUrl: 'app/components/login/login.html',
                 controller: 'LoginController',
                 controllerAs: 'vm',
+                clickOutsideToClose: true,
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('login');
@@ -33,10 +33,10 @@
                     }]
                 }
             });
-            modalInstance.result.then(
-                resetModal,
-                resetModal
-            );
+        }
+
+        function close() {
+            $mdDialog.cancel(modalInstance);
         }
     }
 })();

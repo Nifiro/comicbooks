@@ -1,0 +1,19 @@
+<div layout="column" layout-margin ng-cloak>
+    <div class="md-whiteframe-3dp" layout="column" layout-padding>
+        <div class="md-headline">{{vm.author.firstName}} {{vm.author.lastName}}</div>
+        <md-content layout="row" layout-wrap>
+            <div ng-repeat="comicBook in vm.comicBooks" ng-model-options="{trackBy: '$value.id'}">
+                <div flex="none" class="md-button comic-book" layout="column" layout-align="start start">
+                    <img class="cb-cover" ng-init="vm.loadImage(comicBook.id, 'cover', comicBook)"
+                         ng-src="{{comicBook.image}}" alt="cover" ui-sref="comic-book-detail({id:comicBook.id})">
+                    <div class="md-body-2" ui-sref="comic-book-detail({id:comicBook.id})">
+                        {{comicBook.title}}
+                    </div>
+                    <div class="md-body-1">{{comicBook.status == 'COMPLETED' ? 'Завершен' : 'Ongoing'}},
+                        {{comicBook.chapters}} глав
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
+</div>
